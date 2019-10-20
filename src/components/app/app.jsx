@@ -107,7 +107,13 @@ const App = ({offers}) => {
               </form>
 
               <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer, index) => <PlaceCard key={`offer-${index}`} offer={offer}/>)}
+                {offers.map((offer, index) => (
+                  <PlaceCard
+                    key={`offer-${index}`}
+                    offer={offer}
+                    onClick={() => {}}
+                  />
+                ))}
               </div>
             </section>
 

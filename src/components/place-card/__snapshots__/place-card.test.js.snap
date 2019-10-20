@@ -84,6 +84,7 @@ exports[`<PlaceCard/> PlaceCard correctly renders after launch 1`] = `
     >
       <a
         href="#"
+        onClick={[Function]}
       >
         Wood and stone place
       </a>
