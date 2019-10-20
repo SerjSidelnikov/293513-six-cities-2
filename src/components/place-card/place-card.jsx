@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlaceCard = ({offer}) => {
+const PlaceCard = ({offer, onClick}) => {
   return (
     <article className="cities__place-card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
@@ -41,7 +41,7 @@ const PlaceCard = ({offer}) => {
         </div>
 
         <h2 className="place-card__name">
-          <a href="#">{offer}</a>
+          <a href="#" onClick={onClick}>{offer}</a>
         </h2>
         <p className="place-card__type">Private room</p>
       </div>
@@ -51,6 +51,12 @@ const PlaceCard = ({offer}) => {
 
 PlaceCard.propTypes = {
   offer: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+PlaceCard.defaultProps = {
+  offer: ``,
+  onClick: () => {},
 };
 
 export default PlaceCard;
