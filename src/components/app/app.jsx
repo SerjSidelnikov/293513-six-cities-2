@@ -125,4 +125,8 @@ App.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
+App.defaultProps = {
+  offers: [],
+};
+
 export default App;
