@@ -1,14 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlaceCard = ({offer, onClick}) => {
+const PlaceCard = ({offer, onClick, onMouseEnter}) => {
+  const {image, isPremium, price, name, type, rating} = offer;
+
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter={() => onMouseEnter(offer)}
+    >
+      {isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
             className="place-card__image"
-            src="img/room.jpg"
+            src={image}
             width="260"
             height="200"
             alt="Place image"
@@ -19,7 +29,7 @@ const PlaceCard = ({offer, onClick}) => {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;80</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
@@ -35,28 +45,30 @@ const PlaceCard = ({offer, onClick}) => {
 
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `80%`}}/>
+            <span style={{width: `${rating}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
 
         <h2 className="place-card__name">
-          <a href="#" onClick={onClick}>{offer}</a>
+          <a href="#" onClick={onClick}>{name}</a>
         </h2>
-        <p className="place-card__type">Private room</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
 };
 
 PlaceCard.propTypes = {
-  offer: PropTypes.string.isRequired,
+  offer: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
 };
 
 PlaceCard.defaultProps = {
   offer: ``,
   onClick: () => {},
+  onMouseEnter: () => {},
 };
 
 export default PlaceCard;

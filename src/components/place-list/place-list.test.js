@@ -1,14 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import App from './app';
+import PlaceList from './place-list';
 
 import offers from '../../moks/offers';
 
-describe(`<App/>`, () => {
-  it(`App correctly renders first screen`, () => {
+describe(`<PlaceList/>`, () => {
+  it(`PlaceList correctly renders after launch`, () => {
     const tree = renderer.create(
-        <App offers={offers}/>
+        <PlaceList offers={offers}/>
     ).toJSON();
 
     expect(tree).toMatchSnapshot();

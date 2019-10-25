@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PlaceCard from '../place-card/place-card';
+import PlaceList from '../place-list/place-list';
 
 const App = ({offers}) => {
   return (
@@ -106,15 +106,7 @@ const App = ({offers}) => {
                 { /* </select>*/ }
               </form>
 
-              <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer, index) => (
-                  <PlaceCard
-                    key={`offer-${index}`}
-                    offer={offer}
-                    onClick={() => {}}
-                  />
-                ))}
-              </div>
+              <PlaceList offers={offers}/>
             </section>
 
             <div className="cities__right-section">
@@ -128,7 +120,7 @@ const App = ({offers}) => {
 };
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 };
 
 App.defaultProps = {
