@@ -7,6 +7,7 @@ export default [
     name: `Beautiful &amp; luxurious apartment at great location`,
     type: `Apartment`,
     rating: 93,
+    pin: [52.3909553943508, 4.85309666406198],
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export default [
     name: `Wood and stone place`,
     type: `Private room`,
     rating: 80,
+    pin: [52.369553943508, 4.85309666406198],
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ export default [
     name: `Canal View Prinsengracht`,
     type: `Apartment`,
     rating: 80,
+    pin: [52.3909553943508, 4.929309666406198],
   },
   {
     id: 4,
@@ -34,5 +37,6 @@ export default [
     name: `Nice, cozy, warm big bed apartment`,
     type: `Apartment`,
     rating: 100,
+    pin: [52.3809553943508, 4.939309666406198],
   },
 ];
