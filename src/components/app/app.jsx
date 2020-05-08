@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import PlaceList from '../place-list/place-list';
+import Map from "../map/map";
 
 const App = ({offers}) => {
+  const points = offers.map((offer) => offer.pin);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -110,7 +113,7 @@ const App = ({offers}) => {
             </section>
 
             <div className="cities__right-section">
-              <section className="cities__map map"/>
+              <Map points={points}/>
             </div>
           </div>
         </div>
