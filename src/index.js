@@ -13,9 +13,11 @@ const listOffers = [
 
 const init = () => {
   ReactDOM.render(
-      <App
-        offers={listOffers}
-      />,
+      <React.StrictMode>
+        <App
+          offers={listOffers}
+        />
+      </React.StrictMode>,
       document.querySelector(`#root`)
   );
 };
