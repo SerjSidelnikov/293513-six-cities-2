@@ -7,9 +7,11 @@ import offers from './moks/offers';
 
 const init = () => {
   ReactDOM.render(
-      <App
-        offers={offers}
-      />,
+      <React.StrictMode>
+        <App
+          offers={offers}
+        />
+      </React.StrictMode>,
       document.querySelector(`#root`)
   );
 };
