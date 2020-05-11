@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import PlaceList from "../place-list/place-list";
 import Map from "../map/map";
 
-const Main = ({rentalOffers, rentalOfferCount, onHeaderClick}) => {
-  const points = rentalOffers.map((offer) => offer.pin);
+const Main = ({rentalOffers, onHeaderClick}) => {
+  const {location, offers} = rentalOffers[0];
 
   return (
     <div className="page page--gray page--main">
@@ -82,7 +82,7 @@ const Main = ({rentalOffers, rentalOfferCount, onHeaderClick}) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{rentalOfferCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.left} places to stay in Amsterdam</b>
 
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -102,13 +102,13 @@ const Main = ({rentalOffers, rentalOfferCount, onHeaderClick}) => {
                 </ul>
               </form>
               <PlaceList
-                rentalCardList={rentalOffers}
+                rentalCardList={offers}
                 onHeaderClick={onHeaderClick}
               />
             </section>
 
             <div className="cities__right-section">
-              <section className="cities__map map"/>
+              <Map location={location} offers={offers}/>
             </div>
           </div>
         </div>
@@ -118,7 +118,6 @@ const Main = ({rentalOffers, rentalOfferCount, onHeaderClick}) => {
 };
 
 Main.propTypes = {
-  rentalOfferCount: PropTypes.number.isRequired,
   rentalOffers: PropTypes.array.isRequired,
   onHeaderClick: PropTypes.func.isRequired,
 };

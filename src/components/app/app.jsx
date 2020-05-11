@@ -17,14 +17,13 @@ class App extends PureComponent {
   }
 
   render() {
-    const {rentalOffers, rentalOfferCount} = this.props;
+    const {rentalOffers} = this.props;
 
     return (
       <Switch>
         <Route exact path="/">
           <Main
             rentalOffers={rentalOffers}
-            rentalOfferCount={rentalOfferCount}
             onHeaderClick={this._handleHeaderClick}
           />
         </Route>
@@ -42,14 +41,13 @@ class App extends PureComponent {
   }
 
   _renderPropertyScreen(id) {
-    const offer = this.props.rentalOffers.find((property) => property.id === +id);
+    const offer = this.props.rentalOffers[0].offers.find((property) => property.id === +id);
 
     return offer ? <Property offer={offer}/> : <Redirect to="/"/>;
   }
 }
 
 App.propTypes = {
-  rentalOfferCount: PropTypes.number.isRequired,
   rentalOffers: PropTypes.array.isRequired,
 };
 

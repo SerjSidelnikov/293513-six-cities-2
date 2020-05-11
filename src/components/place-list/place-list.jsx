@@ -43,7 +43,7 @@ class PlaceList extends PureComponent {
 }
 
 PlaceList.propTypes = {
-  rentalCardList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  rentalCardList: PropTypes.array.isRequired,
   onHeaderClick: PropTypes.func.isRequired,
 };
 

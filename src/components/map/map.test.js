@@ -1,18 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import Map from './map.jsx';
+import {TEST_OFFERS} from '../../mocks/tests-mocks';
 
-import Map from "./map";
+const OFFERS_DATA = TEST_OFFERS[0];
 
-import offers from '../../moks/offers';
+it(`Should render Map correctly`, () => {
+  const tree = renderer
+    .create(<Map location={OFFERS_DATA.location} offers={OFFERS_DATA.offers} />)
+    .toJSON();
 
-describe(`<Map/>`, () => {
-  it(`Map correctly renders first screen`, () => {
-    const points = offers.map((offer) => offer.pin);
-
-    const tree = renderer.create(
-        <Map points={points}/>
-    ).toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
+  expect(tree).toMatchSnapshot();
 });

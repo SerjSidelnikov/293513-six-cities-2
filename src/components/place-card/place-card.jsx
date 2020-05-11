@@ -77,11 +77,6 @@ const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
 PlaceCard.propTypes = {
   offer: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    rentalHost: PropTypes.shape({
-      hostAvatar: PropTypes.string.isRequired,
-      hostName: PropTypes.string.isRequired,
-      isSuper: PropTypes.bool.isRequired,
-    }).isRequired,
     rentalTitle: PropTypes.string.isRequired,
     rentalImages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     rentalPrice: PropTypes.number.isRequired,
@@ -89,10 +84,6 @@ PlaceCard.propTypes = {
     rentalType: PropTypes.oneOf(OFFER_TYPES).isRequired,
     isPremium: PropTypes.bool.isRequired,
     isBookmark: PropTypes.bool.isRequired,
-    rentalDescription: PropTypes.string.isRequired,
-    rentalRoomsQuantity: PropTypes.number.isRequired,
-    rentalMaxGuestsQuantity: PropTypes.number.isRequired,
-    rentalFeatures: PropTypes.array.isRequired,
   }).isRequired,
   onHeaderClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,

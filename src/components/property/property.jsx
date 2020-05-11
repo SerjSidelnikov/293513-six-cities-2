@@ -154,8 +154,13 @@ const Property = ({offer}) => {
                   <span className="property__user-name">{hostName}</span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">{rentalDescription}</p>
-                  <p className="property__text">{rentalDescription}</p>
+                  {rentalDescription.map((description, i) => {
+                    return (
+                      <p key={i + description} className="property__text">
+                        {description}
+                      </p>
+                    );
+                  })}
                 </div>
               </div>
               <section className="property__reviews reviews">
@@ -483,7 +488,7 @@ Property.propTypes = {
     rentalType: PropTypes.oneOf(OFFER_TYPES).isRequired,
     isPremium: PropTypes.bool.isRequired,
     isBookmark: PropTypes.bool.isRequired,
-    rentalDescription: PropTypes.string.isRequired,
+    rentalDescription: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     rentalRoomsQuantity: PropTypes.number.isRequired,
     rentalMaxGuestsQuantity: PropTypes.number.isRequired,
     rentalFeatures: PropTypes.array.isRequired,
