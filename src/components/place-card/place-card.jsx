@@ -1,13 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 
-const PlaceCard = ({offer, onClick, onMouseEnter}) => {
-  const {image, isPremium, price, name, type, rating} = offer;
+import {MAX_RATING, OFFER_TYPES} from "../../consts";
+
+const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
+  const {
+    id,
+    rentalTitle,
+    rentalImages,
+    rentalPrice,
+    rentalRating,
+    rentalType,
+    isPremium,
+    isBookmark,
+  } = offer;
+
+  const ratingPercent = (Math.round(rentalRating) * 100) / MAX_RATING;
 
   return (
     <article
       className="cities__place-card place-card"
       onMouseEnter={() => onMouseEnter(offer)}
+      onMouseLeave={onMouseLeave}
     >
       {isPremium && (
         <div className="place-card__mark">
@@ -18,7 +33,7 @@ const PlaceCard = ({offer, onClick, onMouseEnter}) => {
         <a href="#">
           <img
             className="place-card__image"
-            src={image}
+            src={rentalImages[0]}
             width="260"
             height="200"
             alt="Place image"
@@ -29,15 +44,15 @@ const PlaceCard = ({offer, onClick, onMouseEnter}) => {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{price}</b>
+            <b className="place-card__price-value">&euro;{rentalPrice}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
           <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
+            className={`place-card__bookmark-button ${isBookmark ? `place-card__bookmark-button--active` : ``} button`}
             type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark-active"/>
+              <use xlinkHref="#icon-bookmark"/>
             </svg>
             <span className="visually-hidden">In bookmarks</span>
           </button>
@@ -45,30 +60,43 @@ const PlaceCard = ({offer, onClick, onMouseEnter}) => {
 
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating}%`}}/>
+            <span style={{width: `${ratingPercent}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
 
-        <h2 className="place-card__name">
-          <a href="#" onClick={onClick}>{name}</a>
+        <h2 className="place-card__name" onClick={() => onHeaderClick(id)}>
+          <Link to={`/property/${id}`}>{rentalTitle}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{rentalType}</p>
       </div>
     </article>
   );
 };
 
 PlaceCard.propTypes = {
-  offer: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
+  offer: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    rentalHost: PropTypes.shape({
+      hostAvatar: PropTypes.string.isRequired,
+      hostName: PropTypes.string.isRequired,
+      isSuper: PropTypes.bool.isRequired,
+    }).isRequired,
+    rentalTitle: PropTypes.string.isRequired,
+    rentalImages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    rentalPrice: PropTypes.number.isRequired,
+    rentalRating: PropTypes.number.isRequired,
+    rentalType: PropTypes.oneOf(OFFER_TYPES).isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    isBookmark: PropTypes.bool.isRequired,
+    rentalDescription: PropTypes.string.isRequired,
+    rentalRoomsQuantity: PropTypes.number.isRequired,
+    rentalMaxGuestsQuantity: PropTypes.number.isRequired,
+    rentalFeatures: PropTypes.array.isRequired,
+  }).isRequired,
+  onHeaderClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
-};
-
-PlaceCard.defaultProps = {
-  offer: ``,
-  onClick: () => {},
-  onMouseEnter: () => {},
+  onMouseLeave: PropTypes.func.isRequired,
 };
 
 export default PlaceCard;

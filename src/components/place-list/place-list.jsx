@@ -12,19 +12,21 @@ class PlaceList extends PureComponent {
     };
 
     this._handleMouseEnter = this._handleMouseEnter.bind(this);
+    this._handleMouseLeave = this._handleMouseLeave.bind(this);
   }
 
   render() {
-    const {offers} = this.props;
+    const {rentalCardList, onHeaderClick} = this.props;
 
     return (
       <div className="cities__places-list places__list tabs__content">
-        {offers.map((offer) => (
+        {rentalCardList.map((offer) => (
           <PlaceCard
             key={offer.id}
             offer={offer}
-            onClick={() => {}}
+            onHeaderClick={onHeaderClick}
             onMouseEnter={this._handleMouseEnter}
+            onMouseLeave={this._handleMouseLeave}
           />
         ))}
       </div>
@@ -34,10 +36,15 @@ class PlaceList extends PureComponent {
   _handleMouseEnter(offer) {
     this.setState({activeCard: offer});
   }
+
+  _handleMouseLeave() {
+    this.setState({activeCard: null});
+  }
 }
 
 PlaceList.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  rentalCardList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  onHeaderClick: PropTypes.func.isRequired,
 };
 
 export default PlaceList;

@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
-import PlaceList from "./place-list";
+import Main from './main.jsx';
 import {RentalFeature, RentalType} from '../../consts';
 
 const RENTAL_OFFER = {
@@ -67,11 +67,15 @@ const OFFERS_DATA = [
   }),
 ];
 
-it(`Should render OffersList correctly`, () => {
+it(`Should render Main correctly`, () => {
   const tree = renderer
     .create(
         <MemoryRouter>
-          <PlaceList rentalCardsList={OFFERS_DATA} onHeaderClick={() => {}} />
+          <Main
+            rentalOfferCount={OFFERS_DATA.length}
+            onHeaderClick={() => {}}
+            rentalOffers={OFFERS_DATA}
+          />
         </MemoryRouter>
     )
     .toJSON();
