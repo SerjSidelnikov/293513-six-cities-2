@@ -3,7 +3,7 @@ import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import PlaceCard from "./place-card";
-import {TEST_OFFERS} from "../../mocks/tests-mocks";
+import {TEST_OFFERS} from "../../tests-mocks";
 
 const RENTAL_OFFER = TEST_OFFERS[0].offers[0];
 

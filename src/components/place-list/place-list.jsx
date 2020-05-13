@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import PlaceCard from '../place-card/place-card';
+import RentalCard from '../place-card/place-card';
 
 class PlaceList extends PureComponent {
   constructor(props) {
@@ -19,9 +19,9 @@ class PlaceList extends PureComponent {
     const {rentalCardList, onHeaderClick} = this.props;
 
     return (
-      <div className="cities__places-list places__list tabs__content">
+      <>
         {rentalCardList.map((offer) => (
-          <PlaceCard
+          <RentalCard
             key={offer.id}
             offer={offer}
             onHeaderClick={onHeaderClick}
@@ -29,7 +29,7 @@ class PlaceList extends PureComponent {
             onMouseLeave={this._handleMouseLeave}
           />
         ))}
-      </div>
+      </>
     );
   }
 

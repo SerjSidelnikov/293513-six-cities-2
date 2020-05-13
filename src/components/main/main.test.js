@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
 
 import Main from './main.jsx';
-import {TEST_OFFERS} from "../../mocks/tests-mocks";
+import {TEST_OFFERS} from "../../tests-mocks";
 
 const OFFERS_DATA = TEST_OFFERS;
 

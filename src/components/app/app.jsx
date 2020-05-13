@@ -43,7 +43,14 @@ class App extends PureComponent {
   _renderPropertyScreen(id) {
     const offer = this.props.rentalOffers[0].offers.find((property) => property.id === +id);
 
-    return offer ? <Property offer={offer}/> : <Redirect to="/"/>;
+    return offer ? (
+      <Property
+        offer={offer}
+        location={this.props.rentalOffers[0].location}
+        offers={this.props.rentalOffers[0].offers}
+        onHeaderClick={this._handleHeaderClick}
+      />
+    ) : <Redirect to="/"/>;
   }
 }
 
