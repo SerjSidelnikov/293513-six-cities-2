@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Main/> Page Main correctly renders 1`] = `
+exports[`Should render Main correctly 1`] = `
 <div
   className="page page--gray page--main"
 >
@@ -164,7 +164,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
           <b
             className="places__found"
           >
-            312 places to stay in Amsterdam
+             places to stay in Amsterdam
           </b>
           <form
             action="#"
@@ -226,6 +226,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
             <article
               className="cities__place-card place-card"
               onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
             >
               <div
                 className="place-card__mark"
@@ -299,7 +300,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "93%",
+                          "width": "60%",
                         }
                       }
                     />
@@ -312,12 +313,13 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
+                  onClick={[Function]}
                 >
                   <a
-                    href="#"
+                    href="/property/0"
                     onClick={[Function]}
                   >
-                    Beautiful &amp; luxurious apartment at great location
+                    Beautiful & luxurious apartment at great location
                   </a>
                 </h2>
                 <p
@@ -330,6 +332,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
             <article
               className="cities__place-card place-card"
               onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
             >
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
@@ -341,7 +344,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="img/room.jpg"
+                    src="img/apartment-02.jpg"
                     width="260"
                   />
                 </a>
@@ -368,7 +371,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button  button"
+                    className="place-card__bookmark-button place-card__bookmark-button--active button"
                     type="button"
                   >
                     <svg
@@ -409,9 +412,10 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
+                  onClick={[Function]}
                 >
                   <a
-                    href="#"
+                    href="/property/1"
                     onClick={[Function]}
                   >
                     Wood and stone place
@@ -420,14 +424,22 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                 <p
                   className="place-card__type"
                 >
-                  Private room
+                  Hotel
                 </p>
               </div>
             </article>
             <article
               className="cities__place-card place-card"
               onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
             >
+              <div
+                className="place-card__mark"
+              >
+                <span>
+                  Premium
+                </span>
+              </div>
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -438,7 +450,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="img/apartment-02.jpg"
+                    src="img/apartment-03.jpg"
                     width="260"
                   />
                 </a>
@@ -493,7 +505,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "80%",
+                          "width": "100%",
                         }
                       }
                     />
@@ -506,32 +518,27 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
+                  onClick={[Function]}
                 >
                   <a
-                    href="#"
+                    href="/property/2"
                     onClick={[Function]}
                   >
-                    Canal View Prinsengracht
+                    Stylish and cozy place
                   </a>
                 </h2>
                 <p
                   className="place-card__type"
                 >
-                  Apartment
+                  House
                 </p>
               </div>
             </article>
             <article
               className="cities__place-card place-card"
               onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
             >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -542,7 +549,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="img/apartment-03.jpg"
+                    src="img/room.jpg"
                     width="260"
                   />
                 </a>
@@ -569,7 +576,7 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button place-card__bookmark-button--active button"
+                    className="place-card__bookmark-button  button"
                     type="button"
                   >
                     <svg
@@ -610,12 +617,13 @@ exports[`<Main/> Page Main correctly renders 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
+                  onClick={[Function]}
                 >
                   <a
-                    href="#"
+                    href="/property/3"
                     onClick={[Function]}
                   >
-                    Nice, cozy, warm big bed apartment
+                    Excellent location and free parking
                   </a>
                 </h2>
                 <p
