@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
-import {MAX_RATING, OFFER_TYPES} from "../../consts";
+import {OffersRestriction, OFFER_TYPES} from "../../consts";
 
 const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
   const {
@@ -16,7 +16,7 @@ const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
     isBookmark,
   } = offer;
 
-  const ratingPercent = (Math.round(rentalRating) * 100) / MAX_RATING;
+  const ratingPercent = (Math.round(rentalRating) * 100) / OffersRestriction.MAX_RATING;
 
   return (
     <article

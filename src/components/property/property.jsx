@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  MAX_IMAGES_QUANTITY,
-  MAX_MAP_OFFERS_QUANTITY,
-  MAX_RATING,
-  MAX_SIMILAR_OFFERS_QUANTITY,
-  OFFER_TYPES,
-} from '../../consts';
+import {OFFER_TYPES, OffersRestriction} from '../../consts';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map.jsx';
 import {getDistance} from '../../utils';
@@ -38,15 +32,15 @@ const Property = (props) => {
     onHeaderClick,
   } = props;
 
-  const ratingPercent = (Math.round(rentalRating) * 100) / MAX_RATING;
+  const ratingPercent = (Math.round(rentalRating) * 100) / OffersRestriction.MAX_RATING;
   const nearestOffersCoordinates = offers
     .map((offer) => offer.coordinates)
     .sort((a, b) => getDistance(a, coordinates) - getDistance(b, coordinates))
-    .slice(0, MAX_MAP_OFFERS_QUANTITY);
+    .slice(0, OffersRestriction.MAX_MAP_OFFERS_QUANTITY);
 
   const nearestOffers = offers
     .filter((offer) => offer.id !== id)
-    .slice(0, MAX_SIMILAR_OFFERS_QUANTITY);
+    .slice(0, OffersRestriction.MAX_SIMILAR_OFFERS_QUANTITY);
 
   return (
     <div className="page">
@@ -68,7 +62,7 @@ const Property = (props) => {
                     </div>
                   );
                 })
-                .slice(0, MAX_IMAGES_QUANTITY)}
+                .slice(0, OffersRestriction.MAX_IMAGES_QUANTITY)}
             </div>
           </div>
           <div className="property__container container">
