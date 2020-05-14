@@ -1,16 +1,23 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import {MemoryRouter} from 'react-router-dom';
 
-import PlaceList from './place-list';
+import PlaceList from "./place-list";
+import {TEST_OFFERS} from "../../tests-mocks";
 
-import offers from '../../moks/offers';
+const RENTAL_OFFER = TEST_OFFERS[0].offers;
 
-describe(`<PlaceList/>`, () => {
-  it(`PlaceList correctly renders after launch`, () => {
-    const tree = renderer.create(
-        <PlaceList offers={offers}/>
-    ).toJSON();
+it(`Should render OffersList correctly`, () => {
+  const tree = renderer
+    .create(
+        <MemoryRouter>
+          <PlaceList
+            rentalCardList={RENTAL_OFFER}
+            onHeaderClick={() => {}}
+          />
+        </MemoryRouter>
+    )
+    .toJSON();
 
-    expect(tree).toMatchSnapshot();
-  });
+  expect(tree).toMatchSnapshot();
 });

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import PlaceCard from '../place-card/place-card';
+import RentalCard from '../place-card/place-card';
 
 class PlaceList extends PureComponent {
   constructor(props) {
@@ -12,32 +12,39 @@ class PlaceList extends PureComponent {
     };
 
     this._handleMouseEnter = this._handleMouseEnter.bind(this);
+    this._handleMouseLeave = this._handleMouseLeave.bind(this);
   }
 
   render() {
-    const {offers} = this.props;
+    const {rentalCardList, onHeaderClick} = this.props;
 
     return (
-      <div className="cities__places-list places__list tabs__content">
-        {offers.map((offer) => (
-          <PlaceCard
+      <>
+        {rentalCardList.map((offer) => (
+          <RentalCard
             key={offer.id}
             offer={offer}
-            onClick={() => {}}
+            onHeaderClick={onHeaderClick}
             onMouseEnter={this._handleMouseEnter}
+            onMouseLeave={this._handleMouseLeave}
           />
         ))}
-      </div>
+      </>
     );
   }
 
   _handleMouseEnter(offer) {
     this.setState({activeCard: offer});
   }
+
+  _handleMouseLeave() {
+    this.setState({activeCard: null});
+  }
 }
 
 PlaceList.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  rentalCardList: PropTypes.array.isRequired,
+  onHeaderClick: PropTypes.func.isRequired,
 };
 
 export default PlaceList;

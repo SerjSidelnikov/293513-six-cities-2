@@ -2,41 +2,34 @@ import React from 'react';
 import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import PlaceCard from './place-card';
-import offers from '../../moks/offers';
+import PlaceCard from "./place-card";
+import {TEST_OFFERS} from "../../tests-mocks";
 
-Enzyme.configure({adapter: new Adapter()});
+const RENTAL_OFFER = TEST_OFFERS[0].offers[0];
 
-describe(`<PlaceCard/>`, () => {
-  const handleClick = jest.fn();
-  const handleMouseEnter = jest.fn();
+Enzyme.configure({
+  adapter: new Adapter(),
+});
 
-  it(`Simulate pressing to title`, () => {
-    const wrapper = shallow(
-        <PlaceCard
-          offer={offers[0]}
-          onClick={handleClick}
-          onMouseEnter={handleMouseEnter}
-        />
-    );
+it(`Should RentalCard handle onMouseEnter and click events`, () => {
+  const onMouseEnter = jest.fn();
+  const onHeaderClick = jest.fn();
 
-    const btn = wrapper.find(`.place-card__name a`);
-    expect(btn).toHaveLength(1);
+  const rentalCard = shallow(
+      <PlaceCard
+        offer={RENTAL_OFFER}
+        onMouseLeave={() => {}}
+        onMouseEnter={onMouseEnter}
+        onHeaderClick={onHeaderClick}
+      />
+  );
 
-    btn.simulate(`click`);
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
+  const card = rentalCard.find(`.place-card`);
+  const header = rentalCard.find(`.place-card__name`);
 
-  it(`When you hover over the card, the correct information falls into the callback function.`, () => {
-    const wrapper = shallow(
-        <PlaceCard
-          offer={offers[0]}
-          onClick={handleClick}
-          onMouseEnter={handleMouseEnter}
-        />
-    );
+  card.simulate(`mouseenter`);
+  header.simulate(`click`);
 
-    wrapper.simulate(`mouseEnter`);
-    expect(handleMouseEnter).toHaveBeenCalledWith(offers[0]);
-  });
+  expect(onMouseEnter).toHaveBeenCalledTimes(1);
+  expect(onHeaderClick).toHaveBeenCalledTimes(1);
 });

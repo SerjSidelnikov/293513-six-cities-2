@@ -1,23 +1,25 @@
 import React from 'react';
+import {MemoryRouter} from 'react-router-dom';
 import renderer from 'react-test-renderer';
 
-import PlaceCard from './place-card';
+import PlaceCard from "./place-card";
+import {TEST_OFFERS} from "../../tests-mocks";
 
-import offers from '../../moks/offers';
+const RENTAL_OFFER = TEST_OFFERS[0].offers[0];
 
-describe(`<PlaceCard/>`, () => {
-  it(`PlaceCard correctly renders after launch`, () => {
-    const handleMouseEnter = jest.fn();
-    const handleClick = jest.fn();
+it(`Should render RentalCard correctly`, () => {
+  const tree = renderer
+    .create(
+        <MemoryRouter>
+          <PlaceCard
+            offer={RENTAL_OFFER}
+            onHeaderClick={() => {}}
+            onMouseEnter={() => {}}
+            onMouseLeave={() => {}}
+          />
+        </MemoryRouter>
+    )
+    .toJSON();
 
-    const tree = renderer.create(
-        <PlaceCard
-          offer={offers[0]}
-          onMouseEnter={handleMouseEnter}
-          onClick={handleClick}
-        />
-    ).toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
+  expect(tree).toMatchSnapshot();
 });

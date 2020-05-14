@@ -4,13 +4,15 @@ module.exports = {
   entry: `./src/index.js`,
   output: {
     filename: `bundle.js`,
-    path: path.join(__dirname, `public`) // eslint-disable-line
+    path: path.join(__dirname, `public`)
   },
   devServer: {
-    contentBase: path.join(__dirname, `public`), // eslint-disable-line
+    contentBase: path.join(__dirname, `public`),
     compress: false,
+    inline: true,
     open: true,
     port: 1337,
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -24,7 +26,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [`.js`, `.jsx`]
+    extensions: [`.js`, `.jsx`],
   },
-  devtool: `source-map`
+  devtool: `source-map`,
 };

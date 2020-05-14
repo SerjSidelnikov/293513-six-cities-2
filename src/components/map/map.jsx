@@ -6,43 +6,45 @@ class Map extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.city = [52.38333, 4.9];
-    this.zoomMap = 12;
-
-    this.mapConfig = {
-      center: this.city,
-      zoom: this.zoomMap,
-      zoomControl: false,
-      marker: true,
-    };
-
-    this.iconConfig = leaflet.icon({
-      iconUrl: `img/pin.svg`,
-      iconSize: [30, 30],
-    });
-
-    this.mapRef = React.createRef();
-    this.map = null;
+    this._mapRef = React.createRef();
   }
 
   componentDidMount() {
-    const {points} = this.props;
+    const {
+      location: {cityCoordinates},
+    } = this.props;
 
-    if (this.mapRef.current) {
-      this.map = leaflet.map(this.mapRef.current, this.mapConfig);
-      this.map.setView(this.city, this.zoomMap);
+    if (this._mapRef.current) {
+      this.zoom = 12;
+
+      this.map = leaflet.map(this._mapRef.current, {
+        center: cityCoordinates,
+        zoom: this.zoom,
+        zoomControl: false,
+        marker: true,
+      });
+      this.map.setView(cityCoordinates, this.zoom);
 
       leaflet
-        .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-          attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-        })
+        .tileLayer(
+            `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
+            {
+              attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+            }
+        )
         .addTo(this.map);
 
-      points.map((it) => {
-        leaflet
-          .marker(it, this.iconConfig)
-          .addTo(this.map);
-      });
+      this._getMap();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.offersCoordinates !== prevProps.offersCoordinates ||
+      this.props.location.cityCoordinates !== prevProps.location.cityCoordinates
+    ) {
+      this.map.setView(this.props.location.cityCoordinates, this.zoom);
+      this._getMap();
     }
   }
 
@@ -52,17 +54,49 @@ class Map extends PureComponent {
 
   render() {
     return (
-      <section ref={this.mapRef} className="cities__map map"/>
+      <div style={{height: `100%`}} ref={this._mapRef} />
     );
+  }
+
+  _getIcon(isActive) {
+    return leaflet.icon({
+      iconUrl: isActive ? `img/pin-active.svg` : `img/pin.svg`,
+      iconSize: [27, 39],
+    });
+  }
+
+  _getMap() {
+    if (this.markersGroup) {
+      this.markersGroup.removeLayer(this._mapRef.current);
+    }
+
+    this.markersGroup = leaflet.layerGroup().addTo(this.map);
+
+    this.props.offersCoordinates.forEach((coordinates) => {
+      leaflet
+        .marker(coordinates, {
+          icon: this._getIcon(
+              coordinates[0] === this.props.activeCoordinates[0] &&
+              coordinates[1] === this.props.activeCoordinates[1]
+          ),
+        })
+        .addTo(this.markersGroup);
+    });
   }
 }
 
+Map.defaultProps = {
+  activeCoordinates: [],
+};
+
 Map.propTypes = {
-  points: PropTypes.arrayOf(
-      PropTypes.arrayOf(
-          PropTypes.number.isRequired
-      ).isRequired
-  ).isRequired
+  location: PropTypes.shape({
+    cityCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  }).isRequired,
+  offersCoordinates: PropTypes.arrayOf(
+      PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
+  ).isRequired,
+  activeCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired),
 };
 
 export default Map;
