@@ -3,9 +3,9 @@ import {MemoryRouter} from 'react-router-dom';
 import renderer from 'react-test-renderer';
 
 import PlaceCard from "./place-card";
-import {TEST_OFFERS} from "../../tests-mocks";
+import {OFFERS} from "../../tests-mocks";
 
-const RENTAL_OFFER = TEST_OFFERS[0].offers[0];
+const RENTAL_OFFER = OFFERS[0].offers[0];
 
 it(`Should render RentalCard correctly`, () => {
   const tree = renderer
@@ -16,6 +16,7 @@ it(`Should render RentalCard correctly`, () => {
             onHeaderClick={() => {}}
             onMouseEnter={() => {}}
             onMouseLeave={() => {}}
+            onRentalCardHover={() => {}}
           />
         </MemoryRouter>
     )

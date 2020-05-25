@@ -7,13 +7,15 @@ import {Provider} from 'react-redux';
 
 import App from './app.jsx';
 import Property from "../property/property";
-import {TEST_OFFERS, TEST_ALL_OFFERS, TEST_CITIES} from "../../tests-mocks";
+import {OFFERS, ALL_OFFERS, CITIES} from "../../tests-mocks";
 
 const initialState = {
-  currentCity: TEST_CITIES[3],
-  allOffers: TEST_ALL_OFFERS,
-  currentOffers: TEST_OFFERS,
-  cities: TEST_CITIES,
+  currentCity: OFFERS[0].location.city,
+  allOffers: ALL_OFFERS,
+  currentOffers: OFFERS,
+  cities: CITIES,
+  currentSortType: `Popular`,
+  activeCardCoordinates: [],
 };
 
 const reducer = (state = initialState) => {
@@ -31,11 +33,15 @@ it(`Should render Property component from App component`, () => {
       <MemoryRouter>
         <Provider store={store}>
           <App
-            allOffers={TEST_ALL_OFFERS}
-            cities={TEST_CITIES}
-            currentOffers={TEST_OFFERS}
-            currentCity={TEST_CITIES[3]}
+            allOffers={ALL_OFFERS}
+            cities={CITIES}
+            currentOffers={OFFERS}
+            currentCity={CITIES[3]}
             onCityClick={() => {}}
+            currentSortType={`Popular`}
+            onSortTypeClick={() => {}}
+            onRentalCardHover={() => {}}
+            activeCardCoordinates={[]}
           />
         </Provider>
       </MemoryRouter>

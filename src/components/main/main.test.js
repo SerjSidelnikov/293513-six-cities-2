@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
 
 import Main from './main.jsx';
-import {TEST_OFFERS, TEST_CITIES} from "../../tests-mocks";
+import {OFFERS, CITIES} from "../../tests-mocks";
 
 it(`Should render Main correctly`, () => {
   const tree = renderer
@@ -11,10 +11,14 @@ it(`Should render Main correctly`, () => {
         <MemoryRouter>
           <Main
             onHeaderClick={() => {}}
-            cities={TEST_CITIES}
-            currentCity={TEST_CITIES[3]}
-            currentOffers={TEST_OFFERS}
+            cities={CITIES}
+            currentCity={CITIES[3]}
+            currentOffers={OFFERS}
             onCityClick={() => {}}
+            activeCardCoordinates={[]}
+            currentSortType={`Popular`}
+            onRentalCardHover={() => {}}
+            onSortTypeClick={() => {}}
           />
         </MemoryRouter>
     )
