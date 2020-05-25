@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {OffersRestriction, OFFER_TYPES} from "../../consts";
 
-const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
+const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave, onRentalCardHover}) => {
   const {
     id,
     rentalTitle,
@@ -14,6 +14,7 @@ const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
     rentalType,
     isPremium,
     isBookmark,
+    coordinates,
   } = offer;
 
   const ratingPercent = (Math.round(rentalRating) * 100) / OffersRestriction.MAX_RATING;
@@ -21,8 +22,14 @@ const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave}) => {
   return (
     <article
       className="cities__place-card place-card"
-      onMouseEnter={() => onMouseEnter(offer)}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => {
+        onMouseEnter(id);
+        onRentalCardHover(coordinates);
+      }}
+      onMouseLeave={() => {
+        onMouseLeave();
+        onRentalCardHover([]);
+      }}
     >
       {isPremium && (
         <div className="place-card__mark">
@@ -84,10 +91,12 @@ PlaceCard.propTypes = {
     rentalType: PropTypes.oneOf(OFFER_TYPES).isRequired,
     isPremium: PropTypes.bool.isRequired,
     isBookmark: PropTypes.bool.isRequired,
+    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired,
   onHeaderClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
+  onRentalCardHover: PropTypes.func.isRequired,
 };
 
 export default PlaceCard;

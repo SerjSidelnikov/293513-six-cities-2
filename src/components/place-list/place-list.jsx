@@ -16,7 +16,7 @@ class PlaceList extends PureComponent {
   }
 
   render() {
-    const {rentalCardList, onHeaderClick} = this.props;
+    const {rentalCardList, onHeaderClick, onRentalCardHover} = this.props;
 
     return (
       <>
@@ -27,6 +27,7 @@ class PlaceList extends PureComponent {
             onHeaderClick={onHeaderClick}
             onMouseEnter={this._handleMouseEnter}
             onMouseLeave={this._handleMouseLeave}
+            onRentalCardHover={onRentalCardHover}
           />
         ))}
       </>
@@ -45,6 +46,7 @@ class PlaceList extends PureComponent {
 PlaceList.propTypes = {
   rentalCardList: PropTypes.array.isRequired,
   onHeaderClick: PropTypes.func.isRequired,
+  onRentalCardHover: PropTypes.func.isRequired,
 };
 
 export default PlaceList;

@@ -3,9 +3,9 @@ import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
 
 import PlaceList from "./place-list";
-import {TEST_OFFERS} from "../../tests-mocks";
+import {OFFERS} from "../../tests-mocks";
 
-const RENTAL_OFFER = TEST_OFFERS[0].offers;
+const RENTAL_OFFER = OFFERS[0].offers;
 
 it(`Should render OffersList correctly`, () => {
   const tree = renderer
@@ -14,6 +14,7 @@ it(`Should render OffersList correctly`, () => {
           <PlaceList
             rentalCardList={RENTAL_OFFER}
             onHeaderClick={() => {}}
+            onRentalCardHover={() => {}}
           />
         </MemoryRouter>
     )

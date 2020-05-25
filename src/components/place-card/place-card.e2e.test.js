@@ -3,33 +3,53 @@ import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import PlaceCard from "./place-card";
-import {TEST_OFFERS} from "../../tests-mocks";
+import {OFFERS} from "../../tests-mocks";
 
-const RENTAL_OFFER = TEST_OFFERS[0].offers[0];
+const RENTAL_OFFER = OFFERS[0].offers[0];
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
-it(`Should RentalCard handle onMouseEnter and click events`, () => {
-  const onMouseEnter = jest.fn();
-  const onHeaderClick = jest.fn();
+describe(`RentalCard handlers work correctly`, () => {
+  it(`with click events`, () => {
+    const onHeaderClick = jest.fn();
 
-  const rentalCard = shallow(
-      <PlaceCard
-        offer={RENTAL_OFFER}
-        onMouseLeave={() => {}}
-        onMouseEnter={onMouseEnter}
-        onHeaderClick={onHeaderClick}
-      />
-  );
+    const rentalCard = shallow(
+        <PlaceCard
+          offer={RENTAL_OFFER}
+          onMouseLeave={() => {}}
+          onMouseEnter={() => {}}
+          onHeaderClick={onHeaderClick}
+          onRentalCardHover={() => {}}
+        />
+    );
 
-  const card = rentalCard.find(`.place-card`);
-  const header = rentalCard.find(`.place-card__name`);
+    const header = rentalCard.find(`.place-card__name`);
+    header.simulate(`click`);
+    expect(onHeaderClick).toHaveBeenCalledTimes(1);
+  });
 
-  card.simulate(`mouseenter`);
-  header.simulate(`click`);
+  it(`with onRentalCardHover events`, () => {
+    const onRentalCardHover = jest.fn();
 
-  expect(onMouseEnter).toHaveBeenCalledTimes(1);
-  expect(onHeaderClick).toHaveBeenCalledTimes(1);
+    const rentalCard = shallow(
+        <PlaceCard
+          offer={RENTAL_OFFER}
+          onMouseLeave={() => {}}
+          onMouseEnter={() => {}}
+          onHeaderClick={() => {}}
+          onRentalCardHover={onRentalCardHover}
+        />
+    );
+
+    const card = rentalCard.find(`.place-card`);
+
+    card.simulate(`mouseenter`);
+
+    expect(onRentalCardHover).toHaveBeenCalledTimes(1);
+    expect(Array.isArray(onRentalCardHover.mock.calls)).toBe(true);
+    expect(onRentalCardHover.mock.calls.length).toBe(1);
+    expect(onRentalCardHover.mock.calls[0][0].length).toEqual(RENTAL_OFFER.coordinates.length);
+  });
 });
