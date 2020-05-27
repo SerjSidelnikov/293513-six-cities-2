@@ -25,6 +25,7 @@ it(`Should change active cities by click`, () => {
           currentSortType={`Popular`}
           onRentalCardHover={() => {}}
           onSortTypeClick={() => {}}
+          isError={false}
         />
       </MemoryRouter>
   );

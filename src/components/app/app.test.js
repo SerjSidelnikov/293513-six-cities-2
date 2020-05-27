@@ -8,21 +8,26 @@ import App from './app.jsx';
 import {OFFERS, ALL_OFFERS, CITIES} from "../../tests-mocks";
 
 const initialState = {
-  currentCity: CITIES[3],
-  allOffers: ALL_OFFERS,
-  currentOffers: OFFERS,
-  cities: CITIES,
-  currentSortType: `Popular`,
-  activeCardCoordinates: [],
+  DATA: {
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    cities: CITIES,
+    isError: false,
+  },
+  APP: {
+    currentCity: CITIES[3],
+    currentSortType: `Popular`,
+    activeCardCoordinates: [],
+  },
 };
 
 const reducer = (state = initialState) => {
   return state;
 };
 
-it(`Render App`, () => {
-  const store = createStore(reducer);
+const store = createStore(reducer);
 
+it(`Render App`, () => {
   const tree = renderer
     .create(
         <MemoryRouter>
