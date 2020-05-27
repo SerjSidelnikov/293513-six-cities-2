@@ -6,12 +6,9 @@ import {connect} from 'react-redux';
 import Main from "../main/main";
 import Property from '../property/property';
 import {ActionCreator} from "../../reducers/reducer";
+import {SortType} from "../../consts";
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {cities, currentCity, currentOffers, onCityClick} = this.props;
 
@@ -73,10 +70,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCityClick(evt, city) {
-    evt.preventDefault();
+  onCityClick(city) {
     dispatch(ActionCreator.changeCity(city));
     dispatch(ActionCreator.getOffers(city));
+    dispatch(ActionCreator.changeSortType(SortType.POPULAR));
   },
   onSortTypeClick(sortType) {
     dispatch(ActionCreator.changeSortType(sortType));
