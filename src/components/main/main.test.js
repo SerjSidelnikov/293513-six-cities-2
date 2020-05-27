@@ -10,7 +10,6 @@ it(`Should render Main correctly`, () => {
     .create(
         <MemoryRouter>
           <Main
-            onHeaderClick={() => {}}
             cities={CITIES}
             currentCity={CITIES[3]}
             currentOffers={OFFERS}

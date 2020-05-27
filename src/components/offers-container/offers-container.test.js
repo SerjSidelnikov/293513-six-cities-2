@@ -11,7 +11,6 @@ it(`Should OffersContainer render correctly`, () => {
         <MemoryRouter>
           <OffersContainer
             placesCount={OFFERS[0].offers.length}
-            onHeaderClick={() => {}}
             currentOffers={OFFERS}
             activeCardCoordinates={[]}
             currentSortType={`Popular`}

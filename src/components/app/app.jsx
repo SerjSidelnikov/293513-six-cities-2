@@ -10,12 +10,6 @@ import {ActionCreator} from "../../reducers/reducer";
 class App extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      value: -1,
-    };
-
-    this._handleHeaderClick = this._handleHeaderClick.bind(this);
   }
 
   render() {
@@ -28,7 +22,6 @@ class App extends PureComponent {
             cities={cities}
             currentCity={currentCity}
             currentOffers={currentOffers}
-            onHeaderClick={this._handleHeaderClick}
             onCityClick={onCityClick}
             currentSortType={this.props.currentSortType}
             onSortTypeClick={this.props.onSortTypeClick}
@@ -43,12 +36,6 @@ class App extends PureComponent {
     );
   }
 
-  _handleHeaderClick(id) {
-    this.setState({
-      value: id,
-    });
-  }
-
   _renderPropertyScreen(id) {
     const offer = this.props.currentOffers[0].offers.find((property) => property.id === +id);
 
@@ -57,7 +44,6 @@ class App extends PureComponent {
         offer={offer}
         location={this.props.currentOffers[0].location}
         offers={this.props.currentOffers[0].offers}
-        onHeaderClick={this._handleHeaderClick}
         onRentalCardHover={this.props.onRentalCardHover}
         activeCardCoordinates={this.props.activeCardCoordinates}
       />

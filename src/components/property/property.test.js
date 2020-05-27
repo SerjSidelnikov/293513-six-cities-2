@@ -12,7 +12,6 @@ it(`Should render Property correctly`, () => {
           offer={OFFERS[0].offers[0]}
           location={OFFERS[0].location}
           offers={OFFERS[0].offers}
-          onHeaderClick={() => {}}
           activeCardCoordinates={[]}
           onRentalCardHover={() => {}}
         />
