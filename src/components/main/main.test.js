@@ -18,6 +18,7 @@ it(`Should render Main correctly`, () => {
             currentSortType={`Popular`}
             onRentalCardHover={() => {}}
             onSortTypeClick={() => {}}
+            isError={false}
           />
         </MemoryRouter>
     )
