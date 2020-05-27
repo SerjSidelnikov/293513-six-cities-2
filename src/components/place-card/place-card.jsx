@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {OffersRestriction, OFFER_TYPES} from "../../consts";
 
-const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave, onRentalCardHover}) => {
+const PlaceCard = ({offer, onRentalCardHover}) => {
   const {
     id,
     rentalTitle,
@@ -23,11 +23,9 @@ const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave, onRentalCa
     <article
       className="cities__place-card place-card"
       onMouseEnter={() => {
-        onMouseEnter(id);
         onRentalCardHover(coordinates);
       }}
       onMouseLeave={() => {
-        onMouseLeave();
         onRentalCardHover([]);
       }}
     >
@@ -72,7 +70,7 @@ const PlaceCard = ({offer, onHeaderClick, onMouseEnter, onMouseLeave, onRentalCa
           </div>
         </div>
 
-        <h2 className="place-card__name" onClick={() => onHeaderClick(id)}>
+        <h2 className="place-card__name">
           <Link to={`/property/${id}`}>{rentalTitle}</Link>
         </h2>
         <p className="place-card__type">{rentalType}</p>
@@ -93,9 +91,6 @@ PlaceCard.propTypes = {
     isBookmark: PropTypes.bool.isRequired,
     coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired,
-  onHeaderClick: PropTypes.func.isRequired,
-  onMouseEnter: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
   onRentalCardHover: PropTypes.func.isRequired,
 };
 

@@ -12,33 +12,12 @@ Enzyme.configure({
 });
 
 describe(`RentalCard handlers work correctly`, () => {
-  it(`with click events`, () => {
-    const onHeaderClick = jest.fn();
-
-    const rentalCard = shallow(
-        <PlaceCard
-          offer={RENTAL_OFFER}
-          onMouseLeave={() => {}}
-          onMouseEnter={() => {}}
-          onHeaderClick={onHeaderClick}
-          onRentalCardHover={() => {}}
-        />
-    );
-
-    const header = rentalCard.find(`.place-card__name`);
-    header.simulate(`click`);
-    expect(onHeaderClick).toHaveBeenCalledTimes(1);
-  });
-
   it(`with onRentalCardHover events`, () => {
     const onRentalCardHover = jest.fn();
 
     const rentalCard = shallow(
         <PlaceCard
           offer={RENTAL_OFFER}
-          onMouseLeave={() => {}}
-          onMouseEnter={() => {}}
-          onHeaderClick={() => {}}
           onRentalCardHover={onRentalCardHover}
         />
     );

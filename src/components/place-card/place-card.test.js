@@ -13,9 +13,6 @@ it(`Should render RentalCard correctly`, () => {
         <MemoryRouter>
           <PlaceCard
             offer={RENTAL_OFFER}
-            onHeaderClick={() => {}}
-            onMouseEnter={() => {}}
-            onMouseLeave={() => {}}
             onRentalCardHover={() => {}}
           />
         </MemoryRouter>
