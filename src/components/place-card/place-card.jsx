@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {OffersRestriction, OFFER_TYPES} from "../../consts";
 
-const PlaceCard = ({offer, onRentalCardHover}) => {
+const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick}) => {
   const {
     id,
     rentalTitle,
@@ -55,7 +55,11 @@ const PlaceCard = ({offer, onRentalCardHover}) => {
 
           <button
             className={`place-card__bookmark-button ${isBookmark ? `place-card__bookmark-button--active` : ``} button`}
-            type="button">
+            type="button"
+            onClick={() => {
+              onBookmarkClick(id, isBookmark ? 0 : 1);
+            }}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
             </svg>
@@ -96,6 +100,7 @@ PlaceCard.propTypes = {
     }).isRequired,
   }).isRequired,
   onRentalCardHover: PropTypes.func.isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
 export default PlaceCard;

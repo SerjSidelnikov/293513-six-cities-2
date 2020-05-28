@@ -1,5 +1,11 @@
 import {reducer, ActionType, Operation} from './data';
-import {ALL_OFFERS, CITIES, COLOGNE_OFFERS, OFFERS} from '../../tests-mocks';
+import {
+  ALL_OFFERS,
+  CITIES,
+  COLOGNE_OFFERS,
+  FAVORITE_OFFER,
+  OFFERS,
+} from '../../tests-mocks';
 import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../api';
 
@@ -14,6 +20,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
     nearbyOffers: [],
     isError: false,
     isSending: false,
+    favorites: [],
   });
 });
 
@@ -60,55 +67,75 @@ it(`Reducer should get offers by a given city`, () => {
     isError: false,
     isSending: false,
   });
+});
 
-  it(`Reducer should set isSending true due to post process`, () => {
-    expect(
-        reducer(
-            {
-              allOffers: ALL_OFFERS,
-              currentOffers: OFFERS,
-              cities: CITIES,
-              isError: false,
-              isSending: false,
-            },
-            {
-              type: ActionType.SET_SENDING,
-              payload: true,
-            }
-        )
-    ).toEqual({
-      allOffers: ALL_OFFERS,
-      currentOffers: OFFERS,
-      cities: CITIES,
-      isError: false,
-      isSending: true,
-    });
+it(`Reducer should set isSending true due to post process`, () => {
+  expect(
+      reducer(
+          {
+            allOffers: ALL_OFFERS,
+            currentOffers: OFFERS,
+            cities: CITIES,
+            isError: false,
+            isSending: false,
+          },
+          {
+            type: ActionType.SET_SENDING,
+            payload: true,
+          }
+      )
+  ).toEqual({
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    cities: CITIES,
+    isError: false,
+    isSending: true,
   });
+});
 
-  it(`Reducer should add comment to reviewsList by posting new comment`, () => {
-    expect(
-        reducer(
-            {
-              allOffers: ALL_OFFERS,
-              currentOffers: OFFERS,
-              cities: CITIES,
-              reviews: [],
-              isError: false,
-              isSending: false,
-            },
-            {
-              type: ActionType.POST_REVIEW,
-              payload: [`Breathtaking review`],
-            }
-        )
-    ).toEqual({
-      allOffers: ALL_OFFERS,
-      currentOffers: OFFERS,
-      cities: CITIES,
-      reviews: [`Breathtaking review`],
-      isError: false,
-      isSending: false,
-    });
+it(`Reducer should add comment to reviewsList by posting new comment`, () => {
+  expect(
+      reducer(
+          {
+            allOffers: ALL_OFFERS,
+            currentOffers: OFFERS,
+            cities: CITIES,
+            reviews: [],
+            isError: false,
+            isSending: false,
+          },
+          {
+            type: ActionType.POST_REVIEW,
+            payload: [`Breathtaking review`],
+          }
+      )
+  ).toEqual({
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    cities: CITIES,
+    reviews: [`Breathtaking review`],
+    isError: false,
+    isSending: false,
+  });
+});
+
+it(`Reducer should add offer to favorites by loading data`, () => {
+  expect(
+      reducer(
+          {
+            allOffers: ALL_OFFERS,
+            currentOffers: OFFERS,
+            favorites: [],
+          },
+          {
+            type: ActionType.LOAD_FAVORITES,
+            payload: [FAVORITE_OFFER],
+          }
+      )
+  ).toEqual({
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    favorites: [FAVORITE_OFFER],
   });
 });
 

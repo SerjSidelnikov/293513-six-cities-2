@@ -19,6 +19,7 @@ describe(`RentalCard handlers work correctly`, () => {
         <PlaceCard
           offer={RENTAL_OFFER}
           onRentalCardHover={onRentalCardHover}
+          onBookmarkClick={() => {}}
         />
     );
 
@@ -35,5 +36,23 @@ describe(`RentalCard handlers work correctly`, () => {
     expect(onRentalCardHover.mock.calls[0][0][1]).toEqual(
         RENTAL_OFFER.coordinates.longitude
     );
+  });
+
+  it(`with onBookmarkClick events`, () => {
+    const onBookmarkClick = jest.fn();
+
+    const rentalCard = shallow(
+        <PlaceCard
+          offer={RENTAL_OFFER}
+          onRentalCardHover={() => {}}
+          onBookmarkClick={onBookmarkClick}
+        />
+    );
+
+    const bookmark = rentalCard.find(`.place-card__bookmark-button`);
+
+    bookmark.simulate(`click`);
+
+    expect(onBookmarkClick).toHaveBeenCalledTimes(1);
   });
 });

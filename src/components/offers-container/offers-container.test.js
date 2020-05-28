@@ -16,6 +16,7 @@ it(`Should OffersContainer render correctly`, () => {
             currentSortType={`Popular`}
             onRentalCardHover={() => {}}
             onSortTypeClick={() => {}}
+            onBookmarkClick={() => {}}
           />
         </MemoryRouter>
     )

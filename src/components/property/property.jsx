@@ -46,6 +46,7 @@ class Property extends PureComponent {
       isSending,
       isError,
       postReview,
+      onBookmarkClick,
     } = this.props;
 
     const ratingPercent =
@@ -97,6 +98,9 @@ class Property extends PureComponent {
                       isBookmark ? `property__bookmark-button--active` : ``
                     }`}
                     type="button"
+                    onClick={() => {
+                      onBookmarkClick(id, isBookmark ? 0 : 1);
+                    }}
                   >
                     <svg
                       className="property__bookmark-icon"
@@ -209,6 +213,7 @@ class Property extends PureComponent {
                 <PlaceList
                   rentalCardList={nearestOffers}
                   onRentalCardHover={onRentalCardHover}
+                  onBookmarkClick={onBookmarkClick}
                 />
               </div>
             </section>
@@ -284,6 +289,7 @@ Property.propTypes = {
   postReview: PropTypes.func.isRequired,
   isSending: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -301,6 +307,9 @@ const mapDispatchToProps = (dispatch) => ({
   postReview(id, review) {
     dispatch(DataOperation.postReview(id, review));
     dispatch(DataOperation.getReviews(id));
+  },
+  onBookmarkClick(id, status) {
+    dispatch(DataOperation.changeFavoriteStatus(id, status));
   },
 });
 
