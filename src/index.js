@@ -9,6 +9,7 @@ import App from './components/app/app';
 import reducer from './reducers/reducer';
 import {createAPI} from "./api";
 import {Operation as DataOperation} from "./reducers/data/data";
+import {Operation as UserOperation} from "./reducers/user/user";
 
 const api = createAPI();
 
@@ -23,6 +24,7 @@ const store = createStore(
 );
 
 store.dispatch(DataOperation.loadOffers());
+store.dispatch(UserOperation.checkAuthorization());
 
 ReactDOM.render(
     <React.StrictMode>

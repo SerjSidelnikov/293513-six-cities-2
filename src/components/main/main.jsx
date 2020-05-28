@@ -16,13 +16,14 @@ const Main = ({
   activeCardCoordinates,
   onRentalCardHover,
   isError,
+  userEmail,
 }) => {
 
   const placesCount = currentOffers.length > 0 ? currentOffers[0].offers.length : 0;
 
   return (
     <div className="page page--gray page--main">
-      <Header/>
+      <Header userEmail={userEmail}/>
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -66,6 +67,7 @@ Main.propTypes = {
   onRentalCardHover: PropTypes.func.isRequired,
   activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   isError: PropTypes.bool.isRequired,
+  userEmail: PropTypes.string,
 };
 
 export default Main;

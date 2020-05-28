@@ -2,18 +2,26 @@ import React from 'react';
 import Enzyme, {mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {MemoryRouter} from 'react-router-dom';
-import {createStore} from 'redux';
 import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 import App from './app.jsx';
 import Property from "../property/property";
 import {OFFERS, ALL_OFFERS, CITIES} from "../../tests-mocks";
+import {createAPI} from "../../api";
+import {ActionType} from "../../reducers/data/data";
+
+const api = createAPI();
+const mockStore = configureStore([thunk.withExtraArgument(api)]);
 
 const initialState = {
   DATA: {
     allOffers: ALL_OFFERS,
     currentOffers: OFFERS,
     cities: CITIES,
+    nearbyOffers: [],
+    reviews: [],
     isError: false,
   },
   APP: {
@@ -21,19 +29,25 @@ const initialState = {
     currentSortType: `Popular`,
     activeCardCoordinates: [],
   },
+  USER: {
+    authorizationStatus: `UNAUTHORIZED`,
+    isLoginError: false,
+    userEmail: ``,
+  },
 };
 
-const reducer = (state = initialState) => {
-  return state;
-};
+const expectedActions = [
+  {type: ActionType.GET_REVIEWS},
+  {type: ActionType.GET_NEARBY_OFFERS},
+];
+
+const store = mockStore(initialState, expectedActions);
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
 it(`Should render Property component from App component`, () => {
-  const store = createStore(reducer);
-
   const app = mount(
       <MemoryRouter>
         <Provider store={store}>
@@ -47,6 +61,7 @@ it(`Should render Property component from App component`, () => {
             onSortTypeClick={() => {}}
             onRentalCardHover={() => {}}
             activeCardCoordinates={[]}
+            login={() => {}}
           />
         </Provider>
       </MemoryRouter>
