@@ -1,63 +1,99 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
-
-import Main from "../main/main";
-import Property from '../property/property';
-import SignIn from "../sign-in/sign-in";
-import {ActionCreator as AppActionCreator} from "../../reducers/app/app";
-import {ActionCreator as DataActionCreator} from "../../reducers/data/data";
-import {SortType} from "../../consts";
+import {ActionCreator} from '../../reducers/app/app';
 import {
-  getActiveCardCoordinates,
-  getCurrentCity,
-  getCurrentSortType
-} from "../../reducers/app/selector";
+  ActionCreator as DataActionCreator,
+  Operation as DataOperation,
+} from '../../reducers/data/data';
+import {AppRoute, SortType} from '../../consts';
+import Main from '../main/main.jsx';
+import Property from '../property/property.jsx';
+import SignIn from '../sign-in/sign-in.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
+import Favorites from '../favorites/favorites.jsx';
 import {
   getAllOffers,
   getCities,
   getCurrentOffers,
-  getIsError
-} from "../../reducers/data/selector";
-import {Operation as UserOperation} from "../../reducers/user/user";
-import {getLoginStatus, getUserEmail} from "../../reducers/user/selectors";
+  getIsError,
+} from '../../reducers/data/selector';
+import {
+  getActiveCardCoordinates,
+  getCurrentCity,
+  getCurrentSortType,
+} from '../../reducers/app/selector';
+import {Operation as UserOperation} from '../../reducers/user/user';
+import {
+  getAuthorizationStatus,
+  getLoginStatus,
+  getUserEmail,
+} from '../../reducers/user/selectors';
 
-class App extends PureComponent {
-  render() {
-    const {
-      cities,
-      currentCity,
-      currentOffers,
-      onCityClick,
-      isError,
-      login,
-      isLoginError,
-      userEmail,
-    } = this.props;
+const App = (props) => {
+  const {
+    cities,
+    currentOffers,
+    currentCity,
+    onCityClick,
+    currentSortType,
+    onSortTypeClick,
+    onRentalCardHover,
+    activeCardCoordinates,
+    isError,
+    login,
+    userEmail,
+    isLoginError,
+    authorizationStatus,
+    onBookmarkClick,
+  } = props;
 
-    return (
+  return (
+    <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={AppRoute.ROOT}>
           <Main
             cities={cities}
             currentCity={currentCity}
             currentOffers={currentOffers}
             onCityClick={onCityClick}
-            currentSortType={this.props.currentSortType}
-            onSortTypeClick={this.props.onSortTypeClick}
-            onRentalCardHover={this.props.onRentalCardHover}
-            activeCardCoordinates={this.props.activeCardCoordinates}
+            currentSortType={currentSortType}
+            onSortTypeClick={onSortTypeClick}
+            onRentalCardHover={onRentalCardHover}
+            activeCardCoordinates={activeCardCoordinates}
             isError={isError}
             userEmail={userEmail}
+            onBookmarkClick={onBookmarkClick}
           />
         </Route>
-        <Route exact path="/property/:id" render={
-          ({match}) => this._renderPropertyScreen(match.params.id)}
+        <Route
+          exact
+          path={`${AppRoute.PROPERTY}/:id`}
+          render={({match}) => {
+            if (currentOffers.length === 0) {
+              return null;
+            }
+
+            const offer = currentOffers[0].offers.find(
+                (property) => property.id === +match.params.id
+            );
+
+            return (
+              <Property
+                offer={offer}
+                location={currentOffers[0].location}
+                offers={currentOffers[0].offers}
+                onRentalCardHover={onRentalCardHover}
+                activeCardCoordinates={activeCardCoordinates}
+                userEmail={userEmail}
+              />
+            );
+          }}
         />
         <Route
           exact
-          path="/login"
+          path={AppRoute.LOGIN}
           render={() => (
             <SignIn
               onSubmit={login}
@@ -66,29 +102,15 @@ class App extends PureComponent {
             />
           )}
         />
+        <PrivateRoute
+          authorizationStatus={authorizationStatus}
+          render={() => <Favorites userEmail={userEmail} />}
+          path={AppRoute.FAVORITES}
+        />
       </Switch>
-    );
-  }
-
-  _renderPropertyScreen(id) {
-    if (this.props.currentOffers.length === 0) {
-      return null;
-    }
-
-    const offer = this.props.currentOffers[0].offers.find((property) => property.id === +id);
-
-    return offer ? (
-      <Property
-        offer={offer}
-        location={this.props.currentOffers[0].location}
-        offers={this.props.currentOffers[0].offers}
-        onRentalCardHover={this.props.onRentalCardHover}
-        activeCardCoordinates={this.props.activeCardCoordinates}
-        userEmail={this.props.userEmail}
-      />
-    ) : <Redirect to="/"/>;
-  }
-}
+    </BrowserRouter>
+  );
+};
 
 App.propTypes = {
   allOffers: PropTypes.array.isRequired,
@@ -99,11 +121,14 @@ App.propTypes = {
   currentSortType: PropTypes.string.isRequired,
   onSortTypeClick: PropTypes.func.isRequired,
   onRentalCardHover: PropTypes.func.isRequired,
-  activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired)
+    .isRequired,
   isError: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired,
   userEmail: PropTypes.string,
   isLoginError: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -116,22 +141,26 @@ const mapStateToProps = (state) => ({
   isError: getIsError(state),
   userEmail: getUserEmail(state),
   isLoginError: getLoginStatus(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityClick(city) {
-    dispatch(AppActionCreator.changeCity(city));
+    dispatch(ActionCreator.changeCity(city));
     dispatch(DataActionCreator.getOffers(city));
-    dispatch(AppActionCreator.changeSortType(SortType.POPULAR));
+    dispatch(ActionCreator.changeSortType(SortType.POPULAR));
   },
   onSortTypeClick(sortType) {
-    dispatch(AppActionCreator.changeSortType(sortType));
+    dispatch(ActionCreator.changeSortType(sortType));
   },
   onRentalCardHover(coordinates) {
-    dispatch(AppActionCreator.setActiveCard(coordinates));
+    dispatch(ActionCreator.setActiveCard(coordinates));
   },
   login(userData) {
     dispatch(UserOperation.login(userData));
+  },
+  onBookmarkClick(id, status) {
+    dispatch(DataOperation.changeFavoriteStatus(id, status));
   },
 });
 

@@ -14,6 +14,7 @@ it(`Should render RentalCard correctly`, () => {
           <PlaceCard
             offer={RENTAL_OFFER}
             onRentalCardHover={() => {}}
+            onBookmarkClick={() => {}}
           />
         </MemoryRouter>
     )

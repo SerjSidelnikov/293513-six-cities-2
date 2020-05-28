@@ -17,6 +17,7 @@ const Main = ({
   onRentalCardHover,
   isError,
   userEmail,
+  onBookmarkClick,
 }) => {
 
   const placesCount = currentOffers.length > 0 ? currentOffers[0].offers.length : 0;
@@ -47,6 +48,7 @@ const Main = ({
               onSortTypeClick={onSortTypeClick}
               activeCardCoordinates={activeCardCoordinates}
               onRentalCardHover={onRentalCardHover}
+              onBookmarkClick={onBookmarkClick}
             />
           ) : (
             <NoOffers currentCity={currentCity} isError={isError} />
@@ -68,6 +70,7 @@ Main.propTypes = {
   activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   isError: PropTypes.bool.isRequired,
   userEmail: PropTypes.string,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
 export default Main;

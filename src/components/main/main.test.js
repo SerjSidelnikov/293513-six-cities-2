@@ -19,6 +19,7 @@ it(`Should render Main correctly`, () => {
             onRentalCardHover={() => {}}
             onSortTypeClick={() => {}}
             isError={false}
+            onBookmarkClick={() => {}}
           />
         </MemoryRouter>
     )

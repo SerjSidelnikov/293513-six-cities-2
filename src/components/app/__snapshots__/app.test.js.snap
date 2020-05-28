@@ -18,6 +18,8 @@ exports[`Render App 1`] = `
         >
           <a
             className="header__logo-link header__logo-link--active"
+            href="/"
+            onClick={[Function]}
           >
             <img
               alt="6 cities logo"
@@ -289,6 +291,7 @@ exports[`Render App 1`] = `
                   </div>
                   <button
                     className="place-card__bookmark-button place-card__bookmark-button--active button"
+                    onClick={[Function]}
                     type="button"
                   >
                     <svg
@@ -387,6 +390,7 @@ exports[`Render App 1`] = `
                   </div>
                   <button
                     className="place-card__bookmark-button place-card__bookmark-button--active button"
+                    onClick={[Function]}
                     type="button"
                   >
                     <svg
@@ -492,6 +496,7 @@ exports[`Render App 1`] = `
                   </div>
                   <button
                     className="place-card__bookmark-button  button"
+                    onClick={[Function]}
                     type="button"
                   >
                     <svg
@@ -590,6 +595,7 @@ exports[`Render App 1`] = `
                   </div>
                   <button
                     className="place-card__bookmark-button  button"
+                    onClick={[Function]}
                     type="button"
                   >
                     <svg

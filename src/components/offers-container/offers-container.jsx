@@ -17,6 +17,7 @@ const OffersContainer = (props) => {
     onSortTypeClick,
     activeCardCoordinates,
     onRentalCardHover,
+    onBookmarkClick,
   } = props;
 
   const {location, offers} = currentOffers[0];
@@ -45,6 +46,7 @@ const OffersContainer = (props) => {
           <PlaceList
             rentalCardList={sortedOffers}
             onRentalCardHover={onRentalCardHover}
+            onBookmarkClick={onBookmarkClick}
           />
         </div>
       </section>
@@ -68,6 +70,7 @@ OffersContainer.propTypes = {
   onSortTypeClick: PropTypes.func.isRequired,
   onRentalCardHover: PropTypes.func.isRequired,
   activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
 export default OffersContainer;
