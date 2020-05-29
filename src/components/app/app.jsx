@@ -34,6 +34,7 @@ import {
 
 const App = (props) => {
   const {
+    allOffers,
     cities,
     currentOffers,
     currentCity,
@@ -43,7 +44,7 @@ const App = (props) => {
     onRentalCardHover,
     activeCardCoordinates,
     isError,
-    login,
+    onLogin,
     userEmail,
     isLoginError,
     authorizationStatus,
@@ -72,14 +73,14 @@ const App = (props) => {
         </Route>
         <Route
           exact
-          path={`${AppRoute.PROPERTY}/:id`}
+          path={`${AppRoute.OFFER}/:id`}
           render={({match}) => {
             if (currentOffers.length === 0) {
               return null;
             }
 
-            const offer = currentOffers[0].offers.find(
-                (property) => property.id === +match.params.id
+            const offer = allOffers.find(
+                (property) => property.offers[0].id === +match.params.id
             );
 
             if (!offer) {
@@ -88,8 +89,8 @@ const App = (props) => {
 
             return (
               <Property
-                offer={offer}
-                location={currentOffers[0].location}
+                offer={offer.offers[0]}
+                location={offer.location}
                 offers={currentOffers[0].offers}
                 onRentalCardHover={onRentalCardHover}
                 activeCardCoordinates={activeCardCoordinates}
@@ -103,7 +104,7 @@ const App = (props) => {
           path={AppRoute.LOGIN}
           render={() => (
             <SignIn
-              onSubmit={login}
+              onSubmit={onLogin}
               isLoginError={isLoginError}
               userEmail={userEmail}
               onUserEmailClick={onUserEmailClick}
@@ -120,6 +121,7 @@ const App = (props) => {
           )}
           path={AppRoute.FAVORITES}
         />
+        <Redirect to={AppRoute.ROOT} />
       </Switch>
     </BrowserRouter>
   );
@@ -137,7 +139,7 @@ App.propTypes = {
   activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired)
     .isRequired,
   isError: PropTypes.bool.isRequired,
-  login: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
   userEmail: PropTypes.string,
   isLoginError: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
@@ -171,7 +173,7 @@ const mapDispatchToProps = (dispatch) => ({
   onRentalCardHover(coordinates) {
     dispatch(ActionCreator.setActiveCard(coordinates));
   },
-  login(userData) {
+  onLogin(userData) {
     dispatch(UserOperation.login(userData));
   },
   onBookmarkClick(id, status) {

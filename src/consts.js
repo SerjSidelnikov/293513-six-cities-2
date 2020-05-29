@@ -25,12 +25,7 @@ export const RentalType = {
   HOTEL: `Hotel`,
 };
 
-export const OFFER_TYPES = [
-  RentalType.APARTMENT,
-  RentalType.ROOM,
-  RentalType.HOUSE,
-  RentalType.HOTEL,
-];
+export const OFFER_TYPES = Object.values(RentalType);
 
 export const SortType = {
   POPULAR: `Popular`,
@@ -50,16 +45,10 @@ export const ServerResponseStatusCode = {
   UNAUTHORIZED: 401,
 };
 
-export const ErrorStyle = {
-  borderWidth: `2px`,
-  borderRadius: `2px`,
-  borderColor: `red`,
-};
-
 export const AppRoute = {
   ROOT: `/`,
   LOGIN: `/login`,
-  PROPERTY: `/property`,
+  OFFER: `/offer`,
   FAVORITES: `/favorites`,
 };
 

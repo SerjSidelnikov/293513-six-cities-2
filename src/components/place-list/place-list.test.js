@@ -4,6 +4,7 @@ import {MemoryRouter} from 'react-router-dom';
 
 import PlaceList from "./place-list";
 import {OFFERS} from "../../tests-mocks";
+import {ClassName} from '../../consts';
 
 const RENTAL_OFFER = OFFERS[0].offers;
 
@@ -15,7 +16,7 @@ it(`Should render OffersList correctly`, () => {
             rentalCardList={RENTAL_OFFER}
             onRentalCardHover={() => {}}
             onBookmarkClick={() => {}}
-            pageClass={`favorites`}
+            pageClass={ClassName.FAVORITES}
           />
         </MemoryRouter>
     )

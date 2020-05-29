@@ -3,11 +3,13 @@ import {
   ALL_OFFERS,
   CITIES,
   COLOGNE_OFFERS,
-  FAVORITE_OFFER, FAVORITE_PAYLOAD,
+  FavoriteOffer,
+  FAVORITES_PAYLOAD,
   FAVORITE_RESPONSE,
   OFFERS,
   OFFERS_WITH_BOOKMARK,
   OFFERS_WITHOUT_BOOKMARK,
+  REVIEWS_RESPONSE,
 } from '../../tests-mocks';
 import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../api';
@@ -72,6 +74,30 @@ it(`Reducer should get offers by a given city`, () => {
   });
 });
 
+it(`Reducer should set error by an network error`, () => {
+  expect(
+      reducer(
+          {
+            allOffers: ALL_OFFERS,
+            currentOffers: OFFERS,
+            cities: CITIES,
+            isError: false,
+            isSending: false,
+          },
+          {
+            type: ActionType.SET_ERROR,
+            payload: true,
+          }
+      )
+  ).toEqual({
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    cities: CITIES,
+    isError: true,
+    isSending: false,
+  });
+});
+
 it(`Reducer should set isSending true due to post process`, () => {
   expect(
       reducer(
@@ -93,6 +119,50 @@ it(`Reducer should set isSending true due to post process`, () => {
     cities: CITIES,
     isError: false,
     isSending: true,
+  });
+});
+
+it(`Reducer should update reviews by loaded reviews`, () => {
+  expect(
+      reducer(
+          {
+            allOffers: ALL_OFFERS,
+            currentOffers: OFFERS,
+            cities: CITIES,
+            reviews: [],
+          },
+          {
+            type: ActionType.GET_REVIEWS,
+            payload: REVIEWS_RESPONSE,
+          }
+      )
+  ).toEqual({
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    cities: CITIES,
+    reviews: REVIEWS_RESPONSE,
+  });
+});
+
+it(`Reducer should update nearbyOffers by loaded data`, () => {
+  expect(
+      reducer(
+          {
+            allOffers: ALL_OFFERS,
+            currentOffers: OFFERS,
+            cities: CITIES,
+            nearbyOffers: [],
+          },
+          {
+            type: ActionType.GET_NEARBY_OFFERS,
+            payload: OFFERS,
+          }
+      )
+  ).toEqual({
+    allOffers: ALL_OFFERS,
+    currentOffers: OFFERS,
+    cities: CITIES,
+    nearbyOffers: OFFERS,
   });
 });
 
@@ -132,13 +202,13 @@ it(`Reducer should add offer to favorites by loading data`, () => {
           },
           {
             type: ActionType.LOAD_FAVORITES,
-            payload: [FAVORITE_OFFER],
+            payload: [FavoriteOffer],
           }
       )
   ).toEqual({
     allOffers: ALL_OFFERS,
     currentOffers: OFFERS,
-    favorites: [FAVORITE_OFFER],
+    favorites: [FavoriteOffer],
   });
 });
 
@@ -153,13 +223,13 @@ it(`Reducer should update offer by changing isBookmark state`, () => {
           },
           {
             type: ActionType.UPDATE_OFFER,
-            payload: FAVORITE_OFFER,
+            payload: FavoriteOffer,
           }
       )
   ).toEqual({
     allOffers: OFFERS_WITH_BOOKMARK,
     currentOffers: OFFERS_WITH_BOOKMARK,
-    favorites: [FAVORITE_OFFER],
+    favorites: [FavoriteOffer],
     nearbyOffers: [],
   });
 });
@@ -208,12 +278,17 @@ describe(`Operation should work correctly`, () => {
     apiMock.onGet(`/comments/1`).reply(200, []);
 
     return getReviews(dispatch, () => {}, api).then(() => {
-      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledTimes(2);
 
       expect(dispatch).toHaveBeenNthCalledWith(1, {
         type: ActionType.GET_REVIEWS,
         payload: [],
       });
+
+      expect(dispatch).toHaveBeenNthCalledWith(2, {
+        type: ActionType.SET_ERROR,
+        payload: false,
+      })
     });
   });
 
@@ -225,11 +300,16 @@ describe(`Operation should work correctly`, () => {
     apiMock.onGet(`/hotels/1/nearby`).reply(200, []);
 
     return getNearbyOffers(dispatch, () => {}, api).then(() => {
-      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledTimes(2);
 
       expect(dispatch).toHaveBeenNthCalledWith(1, {
         type: ActionType.GET_NEARBY_OFFERS,
         payload: [],
+      });
+
+      expect(dispatch).toHaveBeenNthCalledWith(2, {
+        type: ActionType.SET_ERROR,
+        payload: false,
       });
     });
   });
@@ -287,7 +367,7 @@ describe(`Operation should work correctly`, () => {
 
       expect(dispatch).toHaveBeenNthCalledWith(1, {
         type: ActionType.LOAD_FAVORITES,
-        payload: FAVORITE_PAYLOAD,
+        payload: FAVORITES_PAYLOAD,
       });
     });
   });
@@ -301,7 +381,10 @@ describe(`Operation should work correctly`, () => {
       status: 1,
     };
 
-    const changeFavoriteStatus = Operation.changeFavoriteStatus(postData.id, postData.status);
+    const changeFavoriteStatus = Operation.changeFavoriteStatus(
+        postData.id,
+        postData.status
+    );
 
     apiMock
       .onPost(`/favorite/${postData.id}/${postData.status}`)
@@ -313,7 +396,7 @@ describe(`Operation should work correctly`, () => {
 
       expect(dispatch).toHaveBeenNthCalledWith(1, {
         type: ActionType.UPDATE_OFFER,
-        payload: FAVORITE_PAYLOAD[0],
+        payload: FAVORITES_PAYLOAD[0],
       });
     });
   });

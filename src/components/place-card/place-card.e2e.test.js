@@ -4,6 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import PlaceCard from "./place-card";
 import {OFFERS} from "../../tests-mocks";
+import {ClassName} from '../../consts';
 
 const RENTAL_OFFER = OFFERS[0].offers[0];
 
@@ -20,7 +21,7 @@ describe(`RentalCard handlers work correctly`, () => {
           offer={RENTAL_OFFER}
           onRentalCardHover={onRentalCardHover}
           onBookmarkClick={() => {}}
-          pageClass={`favorites`}
+          pageClass={ClassName.FAVORITES}
         />
     );
 
@@ -47,7 +48,7 @@ describe(`RentalCard handlers work correctly`, () => {
           offer={RENTAL_OFFER}
           onRentalCardHover={() => {}}
           onBookmarkClick={onBookmarkClick}
-          pageClass={`favorites`}
+          pageClass={ClassName.FAVORITES}
         />
     );
 

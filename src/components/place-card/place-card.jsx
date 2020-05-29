@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
-import {OffersRestriction, OFFER_TYPES, ClassName} from "../../consts";
+import {OffersRestriction, OFFER_TYPES, ClassName, AppRoute} from "../../consts";
 
-const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick, pageClass}) => {
+const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick, pageClass, userEmail}) => {
   const {
     id,
     rentalTitle,
@@ -21,7 +21,9 @@ const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick, pageClass}) => {
 
   return (
     <article
-      className={`${pageClass === ClassName.CITY ? `${pageClass}__place-` : `${pageClass}__`}card place-card`}
+      className={`${
+        pageClass === ClassName.CITY ? `${pageClass}__place-` : `${pageClass}__`
+      }card place-card`}
       onMouseEnter={() => {
         onRentalCardHover([coordinates.latitude, coordinates.longitude]);
       }}
@@ -35,7 +37,7 @@ const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick, pageClass}) => {
         </div>
       )}
       <div className={`${pageClass}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={rentalImages[0]}
@@ -43,28 +45,53 @@ const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick, pageClass}) => {
             height={pageClass === ClassName.FAVORITES ? `110` : `200`}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
 
-      <div className={`${pageClass === ClassName.FAVORITES ? `${pageClass}__card-info` : ``} place-card__info`}>
+      <div
+        className={`${
+          pageClass === ClassName.FAVORITES ? `${pageClass}__card-info` : ``
+        } place-card__info`}
+      >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{rentalPrice}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <button
-            className={`place-card__bookmark-button ${isBookmark ? `place-card__bookmark-button--active` : ``} button`}
-            type="button"
-            onClick={() => {
-              onBookmarkClick(id, isBookmark ? 0 : 1);
-            }}
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"/>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          {
+            userEmail ? (
+              <button
+                className={`place-card__bookmark-button button ${
+                  isBookmark ? `place-card__bookmark-button--active` : ``
+                }`}
+                type="button"
+                onClick={() => {
+                  onBookmarkClick(id, !isBookmark);
+                }}
+              >
+                <svg className="place-card__bookmark-icon" width="18" height="19">
+                  <use xlinkHref="#icon-bookmark"/>
+                </svg>
+                <span className="visually-hidden">To bookmarks</span>
+              </button>
+            ) : (
+              <Link to={AppRoute.LOGIN}>
+                <button
+                  className={`place-card__bookmark-button ${isBookmark ? `place-card__bookmark-button--active` : ``} button`}
+                  type="button"
+                  onClick={() => {
+                    onBookmarkClick(id, !isBookmark);
+                  }}
+                >
+                  <svg className="place-card__bookmark-icon" width="18" height="19">
+                    <use xlinkHref="#icon-bookmark"/>
+                  </svg>
+                  <span className="visually-hidden">In bookmarks</span>
+                </button>
+              </Link>
+            )
+          }
         </div>
 
         <div className="place-card__rating rating">
@@ -75,7 +102,7 @@ const PlaceCard = ({offer, onRentalCardHover, onBookmarkClick, pageClass}) => {
         </div>
 
         <h2 className="place-card__name">
-          <Link to={`/property/${id}`}>{rentalTitle}</Link>
+          <Link to={`/offer/${id}`}>{rentalTitle}</Link>
         </h2>
         <p className="place-card__type">{rentalType}</p>
       </div>
@@ -102,6 +129,7 @@ PlaceCard.propTypes = {
   onRentalCardHover: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   pageClass: PropTypes.string.isRequired,
+  userEmail: PropTypes.string,
 };
 
 export default PlaceCard;

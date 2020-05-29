@@ -8,9 +8,10 @@ import thunk from 'redux-thunk';
 
 import App from './app.jsx';
 import Property from "../property/property";
-import {OFFERS, ALL_OFFERS, CITIES} from "../../tests-mocks";
+import {ALL_OFFERS, CITIES} from "../../tests-mocks";
 import {createAPI} from "../../api";
 import {ActionType} from "../../reducers/data/data";
+import {AuthorizationStatus, SortType} from '../../consts';
 
 const api = createAPI();
 const mockStore = configureStore([thunk.withExtraArgument(api)]);
@@ -18,7 +19,7 @@ const mockStore = configureStore([thunk.withExtraArgument(api)]);
 const initialState = {
   DATA: {
     allOffers: ALL_OFFERS,
-    currentOffers: OFFERS,
+    currentOffers: [ALL_OFFERS[0]],
     cities: CITIES,
     nearbyOffers: [],
     reviews: [],
@@ -27,12 +28,12 @@ const initialState = {
     favorites: [],
   },
   APP: {
-    currentCity: CITIES[3],
-    currentSortType: `Popular`,
+    currentCity: CITIES[0],
+    currentSortType: SortType.POPULAR,
     activeCardCoordinates: [],
   },
   USER: {
-    authorizationStatus: `UNAUTHORIZED`,
+    authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
     isLoginError: false,
     userEmail: ``,
   },
@@ -50,20 +51,21 @@ Enzyme.configure({
 });
 
 it(`Should render Property component from App component`, () => {
+  window.scrollTo = jest.fn();
   const app = mount(
       <MemoryRouter>
         <Provider store={store}>
           <App
             allOffers={ALL_OFFERS}
             cities={CITIES}
-            currentOffers={OFFERS}
-            currentCity={CITIES[3]}
+            currentOffers={[ALL_OFFERS[0]]}
+            currentCity={CITIES[0]}
             onCityClick={() => {}}
-            currentSortType={`Popular`}
+            currentSortType={SortType.POPULAR}
             onSortTypeClick={() => {}}
             onRentalCardHover={() => {}}
             activeCardCoordinates={[]}
-            login={() => {}}
+            onLogin={() => {}}
           />
         </Provider>
       </MemoryRouter>

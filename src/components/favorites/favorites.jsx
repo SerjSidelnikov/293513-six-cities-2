@@ -2,8 +2,9 @@ import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import Header from '../header/header.jsx';
-import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
+
+import Header from '../header/header';
+import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import {AppRoute} from '../../consts';
 import FavoriteItem from '../favorite-item/favorite-item';
 import {getFavorites} from '../../reducers/data/selector';
@@ -42,6 +43,7 @@ class Favorites extends PureComponent {
                         favoriteOffers={favoritesItem.offers}
                         onBookmarkClick={onBookmarkClick}
                         onRentalCardHover={onRentalCardHover}
+                        userEmail={userEmail}
                       />
                     ))}
                   </ul>

@@ -5,13 +5,14 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import Main from './main.jsx';
 import {OFFERS, CITIES} from "../../tests-mocks";
+import {SortType} from '../../consts';
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
 it(`Should change active cities by click`, () => {
-  const activeCity = `Amsterdam`;
+  const activeCity = CITIES[0];
   const handleCityClick = jest.fn();
 
   const mainScreen = mount(
@@ -22,7 +23,7 @@ it(`Should change active cities by click`, () => {
           currentOffers={OFFERS}
           onCityClick={handleCityClick}
           activeCardCoordinates={[]}
-          currentSortType={`Popular`}
+          currentSortType={SortType.POPULAR}
           onRentalCardHover={() => {}}
           onSortTypeClick={() => {}}
           isError={false}
@@ -33,8 +34,8 @@ it(`Should change active cities by click`, () => {
   );
 
   const cities = mainScreen.find(`.locations__item-link`);
-  cities.at(0).simulate(`click`);
+  cities.at(1).simulate(`click`);
 
-  expect(handleCityClick.mock.calls[0][0]).toBe(`Paris`);
+  expect(handleCityClick.mock.calls[0][0]).toBe(CITIES[1]);
   expect(handleCityClick.mock.calls[0][0]).not.toMatch(activeCity);
 });

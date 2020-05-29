@@ -1,69 +1,87 @@
-import React from 'react';
+import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 
 import PlaceList from "../place-list/place-list";
-import Map from '../map/map';
-import Sorting from "../sorting/sorting";
-import {getSortedOffers} from "../../utils";
-import withToggle from "../../hoc/with-toggle/with-toggle";
+import Map from '../map/map.jsx';
+import Sorting from '../sorting/sorting';
+import {getSortedOffers} from '../../utils';
+import withToggle from '../../hoc/with-toggle/with-toggle';
 
 const SortingWrapped = withToggle(Sorting);
 
-const OffersContainer = (props) => {
-  const {
-    placesCount,
-    currentOffers,
-    currentSortType,
-    onSortTypeClick,
-    activeCardCoordinates,
-    onRentalCardHover,
-    onBookmarkClick,
-    pageClass,
-  } = props;
+class OffersContainer extends PureComponent {
+  constructor(props) {
+    super(props);
 
-  const {location, offers} = currentOffers[0];
+    this._scroll = createRef();
+  }
 
-  const sortedOffers = getSortedOffers(offers, currentSortType);
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.currentOffers !== prevProps.currentOffers &&
+      this.props.currentOffers[0].location.city !==
+      prevProps.currentOffers[0].location.city
+    ) {
+      this._scroll.current.scrollTo(0, 0);
+    }
+  }
 
-  const offersCoordinates = offers.map((offer) => [
-    offer.coordinates.latitude,
-    offer.coordinates.longitude,
-  ]);
+  render() {
+    const {
+      placesCount,
+      currentOffers,
+      currentSortType,
+      onSortTypeClick,
+      activeCardCoordinates,
+      onRentalCardHover,
+      onBookmarkClick,
+      pageClass,
+      userEmail,
+    } = this.props;
 
-  return (
-    <div className="cities__places-container container">
-      <section className="cities__places places">
-        <h2 className="visually-hidden">Places</h2>
-        <b className="places__found">
-          {placesCount} places to stay in {location.city}
-        </b>
+    const {location, offers} = currentOffers[0];
 
-        <SortingWrapped
-          currentSortType={currentSortType}
-          onSortTypeClick={onSortTypeClick}
-        />
+    const sortedOffers = getSortedOffers(offers, currentSortType);
 
-        <div className="cities__places-list places__list tabs__content">
-          <PlaceList
-            rentalCardList={sortedOffers}
-            onRentalCardHover={onRentalCardHover}
-            onBookmarkClick={onBookmarkClick}
-            pageClass={pageClass}
+    const offersCoordinates = offers.map((offer) => [
+      offer.coordinates.latitude,
+      offer.coordinates.longitude,
+    ]);
+
+    return (
+      <div className="cities__places-container container">
+        <section className="cities__places places" ref={this._scroll}>
+          <h2 className="visually-hidden">Places</h2>
+          <b className="places__found">
+            {placesCount} places to stay in {location.city}
+          </b>
+          <SortingWrapped
+            currentSortType={currentSortType}
+            onSortTypeClick={onSortTypeClick}
           />
-        </div>
-      </section>
-      <div className="cities__right-section">
-        <section className="cities__map map">
-          <Map
-            location={location}
-            offersCoordinates={offersCoordinates}
-            activeCardCoordinates={activeCardCoordinates}
-          />
+          <div className="cities__places-list places__list tabs__content">
+            <PlaceList
+              rentalCardList={sortedOffers}
+              onRentalCardHover={onRentalCardHover}
+              onBookmarkClick={onBookmarkClick}
+              pageClass={pageClass}
+              userEmail={userEmail}
+            />
+          </div>
         </section>
+        <div className="cities__right-section">
+          <section className="cities__map map">
+            <Map
+              location={location}
+              offersCoordinates={offersCoordinates}
+              activeCardCoordinates={activeCardCoordinates}
+            />
+          </section>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 OffersContainer.propTypes = {
   placesCount: PropTypes.number.isRequired,
@@ -71,9 +89,11 @@ OffersContainer.propTypes = {
   currentSortType: PropTypes.string.isRequired,
   onSortTypeClick: PropTypes.func.isRequired,
   onRentalCardHover: PropTypes.func.isRequired,
-  activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  activeCardCoordinates: PropTypes.arrayOf(PropTypes.number.isRequired)
+    .isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   pageClass: PropTypes.string.isRequired,
+  userEmail: PropTypes.string,
 };
 
 export default OffersContainer;

@@ -1,8 +1,10 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import pluralize from 'pluralize';
+import {Link} from "react-router-dom";
 
-import {OffersRestriction, OFFER_TYPES, ClassName} from '../../consts';
+import {OffersRestriction, OFFER_TYPES, ClassName, AppRoute} from '../../consts';
 import ReviewsList from '../reviews-list/reviews-list.jsx';
 import ReviewForm from "../review-form/review-form";
 import Map from '../map/map.jsx';
@@ -15,8 +17,36 @@ import withReview from "../../hoc/with-review/with-review";
 const ReviewFormWrapped = withReview(ReviewForm);
 
 class Property extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this._getNearbyOffersCoordinates = this._getNearbyOffersCoordinates.bind(this);
+  }
+
   componentDidMount() {
-    this.props.loadOfferData(this.props.offer.id);
+    this.props.onLoadOfferData(this.props.offer.id);
+    window.scrollTo(0, 0);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.offer.id !== prevProps.offer.id) {
+      window.scrollTo(0, 0);
+      this.props.onLoadOfferData(this.props.offer.id);
+    }
+  }
+
+  _getNearbyOffersCoordinates() {
+    const nearestOffers = this.props.nearbyOffers.map((offer) => offer.offers[0]);
+
+    return [
+      [
+        this.props.offer.coordinates.latitude,
+        this.props.offer.coordinates.longitude,
+      ],
+      ...nearestOffers
+        .map((offer) => offer.coordinates)
+        .map((coordinate) => [coordinate.latitude, coordinate.longitude]),
+    ];
   }
 
   render() {
@@ -45,7 +75,7 @@ class Property extends PureComponent {
       userEmail,
       isSending,
       isError,
-      postReview,
+      onReviewPost,
       onBookmarkClick,
       onUserEmailClick,
     } = this.props;
@@ -55,12 +85,7 @@ class Property extends PureComponent {
 
     const nearestOffers = nearbyOffers.map((offer) => offer.offers[0]);
 
-    const nearestOffersCoordinates = [
-      [coordinates.latitude, coordinates.longitude],
-      ...nearestOffers
-        .map((offer) => offer.coordinates)
-        .map((coordinate) => [coordinate.latitude, coordinate.longitude]),
-    ];
+    const nearestOffersCoordinates = this._getNearbyOffersCoordinates();
 
     return (
       <div className="page">
@@ -94,24 +119,50 @@ class Property extends PureComponent {
                 )}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{rentalTitle}</h1>
-                  <button
-                    className={`property__bookmark-button button ${
-                      isBookmark ? `property__bookmark-button--active` : ``
-                    }`}
-                    type="button"
-                    onClick={() => {
-                      onBookmarkClick(id, isBookmark ? 0 : 1);
-                    }}
-                  >
-                    <svg
-                      className="property__bookmark-icon"
-                      width="31"
-                      height="33"
-                    >
-                      <use xlinkHref="#icon-bookmark"/>
-                    </svg>
-                    <span className="visually-hidden">To bookmarks</span>
-                  </button>
+
+                  {
+                    userEmail ? (
+                      <button
+                        className={`property__bookmark-button button ${
+                          isBookmark ? `property__bookmark-button--active` : ``
+                        }`}
+                        type="button"
+                        onClick={() => {
+                          onBookmarkClick(id, isBookmark ? 0 : 1);
+                        }}
+                      >
+                        <svg
+                          className="property__bookmark-icon"
+                          width="31"
+                          height="33"
+                        >
+                          <use xlinkHref="#icon-bookmark"/>
+                        </svg>
+                        <span className="visually-hidden">To bookmarks</span>
+                      </button>
+                    ) : (
+                      <Link to={AppRoute.LOGIN}>
+                        <button
+                          className={`property__bookmark-button button ${
+                            isBookmark ? `property__bookmark-button--active` : ``
+                          }`}
+                          type="button"
+                          onClick={() => {
+                            onBookmarkClick(id, isBookmark ? 0 : 1);
+                          }}
+                        >
+                          <svg
+                            className="property__bookmark-icon"
+                            width="31"
+                            height="33"
+                          >
+                            <use xlinkHref="#icon-bookmark"/>
+                          </svg>
+                          <span className="visually-hidden">To bookmarks</span>
+                        </button>
+                      </Link>
+                    )
+                  }
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
@@ -127,10 +178,13 @@ class Property extends PureComponent {
                     {rentalType}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    {rentalRoomsQuantity} Bedrooms
+                    {rentalRoomsQuantity}
+                    {pluralize(` Bedroom`, rentalRoomsQuantity)}
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {rentalMaxGuestsQuantity} adults
+                    Max {rentalMaxGuestsQuantity}
+                    {` `}
+                    {pluralize(` adult`, rentalMaxGuestsQuantity)}
                   </li>
                 </ul>
                 <div className="property__price">
@@ -180,7 +234,7 @@ class Property extends PureComponent {
                 <ReviewsList reviews={reviews}>
                   {userEmail && (
                     <ReviewFormWrapped
-                      onReviewSubmit={postReview}
+                      onReviewSubmit={onReviewPost}
                       id={id}
                       isSending={isSending}
                       isError={isError}
@@ -216,6 +270,7 @@ class Property extends PureComponent {
                   onRentalCardHover={onRentalCardHover}
                   onBookmarkClick={onBookmarkClick}
                   pageClass={ClassName.NEAR_PLACES}
+                  userEmail={userEmail}
                 />
               </div>
             </section>
@@ -287,8 +342,8 @@ Property.propTypes = {
       }).isRequired
   ).isRequired,
   userEmail: PropTypes.string,
-  loadOfferData: PropTypes.func.isRequired,
-  postReview: PropTypes.func.isRequired,
+  onLoadOfferData: PropTypes.func.isRequired,
+  onReviewPost: PropTypes.func.isRequired,
   isSending: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
@@ -303,13 +358,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadOfferData(id) {
+  onLoadOfferData(id) {
     dispatch(DataOperation.getReviews(id));
     dispatch(DataOperation.getNearbyOffers(id));
   },
-  postReview(id, review) {
-    dispatch(DataOperation.postReview(id, review));
+  onReviewPost(id, review) {
+    const postReviewPromise = dispatch(DataOperation.postReview(id, review));
     dispatch(DataOperation.getReviews(id));
+    return postReviewPromise;
   },
   onBookmarkClick(id, status) {
     dispatch(DataOperation.changeFavoriteStatus(id, status));

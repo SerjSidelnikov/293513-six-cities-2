@@ -1,21 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
+
 import PlaceList from "../place-list/place-list";
-import {ClassName} from '../../consts';
+import {ClassName, AppRoute} from '../../consts';
 
 const FavoritesItem = ({
   favoriteCity,
   favoriteOffers,
   onBookmarkClick,
   onRentalCardHover,
+  userEmail,
 }) => {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <Link to={AppRoute.ROOT} className="locations__item-link">
             <span>{favoriteCity}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">
@@ -24,6 +27,7 @@ const FavoritesItem = ({
           onRentalCardHover={onRentalCardHover}
           onBookmarkClick={onBookmarkClick}
           pageClass={ClassName.FAVORITES}
+          userEmail={userEmail}
         />
       </div>
     </li>
@@ -63,6 +67,7 @@ FavoritesItem.propTypes = {
   ).isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   onRentalCardHover: PropTypes.func.isRequired,
+  userEmail: PropTypes.string,
 };
 
 export default FavoritesItem;

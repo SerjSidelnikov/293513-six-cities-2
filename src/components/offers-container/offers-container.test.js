@@ -2,8 +2,9 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
 
-import OffersContainer from './offers-container.jsx';
+import OffersContainer from './offers-container';
 import {OFFERS} from '../../tests-mocks';
+import {ClassName, SortType} from '../../consts';
 
 it(`Should OffersContainer render correctly`, () => {
   const tree = renderer
@@ -13,11 +14,11 @@ it(`Should OffersContainer render correctly`, () => {
             placesCount={OFFERS[0].offers.length}
             currentOffers={OFFERS}
             activeCardCoordinates={[]}
-            currentSortType={`Popular`}
+            currentSortType={SortType.POPULAR}
             onRentalCardHover={() => {}}
             onSortTypeClick={() => {}}
             onBookmarkClick={() => {}}
-            pageClass={`cities`}
+            pageClass={ClassName.CITY}
           />
         </MemoryRouter>
     )

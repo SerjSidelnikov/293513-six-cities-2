@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 
 import App from './app.jsx';
 import {OFFERS, ALL_OFFERS, CITIES} from "../../tests-mocks";
+import {AuthorizationStatus, SortType} from '../../consts';
 
 const initialState = {
   DATA: {
@@ -16,12 +17,12 @@ const initialState = {
     favorites: [],
   },
   APP: {
-    currentCity: CITIES[3],
-    currentSortType: `Popular`,
+    currentCity: CITIES[0],
+    currentSortType: SortType.POPULAR,
     activeCardCoordinates: [],
   },
   USER: {
-    authorizationStatus: `UNAUTHORIZED`,
+    authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
     isLoginError: false,
     userEmail: ``,
   },
@@ -42,9 +43,9 @@ it(`Render App`, () => {
               allOffers={ALL_OFFERS}
               cities={CITIES}
               currentOffers={OFFERS}
-              currentCity={CITIES[3]}
+              currentCity={CITIES[0]}
               onCityClick={() => {}}
-              currentSortType={`Popular`}
+              currentSortType={SortType.POPULAR}
               onSortTypeClick={() => {}}
               onRentalCardHover={() => {}}
               activeCardCoordinates={[]}

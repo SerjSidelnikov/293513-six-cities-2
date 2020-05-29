@@ -2,7 +2,13 @@ import React, {PureComponent, createRef} from 'react';
 import {Redirect} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../header/header.jsx';
-import {AppRoute, ErrorStyle} from '../../consts';
+import {AppRoute} from '../../consts';
+
+const ErrorStyle = {
+  borderWidth: `2px`,
+  borderRadius: `2px`,
+  borderColor: `red`,
+};
 
 class SignIn extends PureComponent {
   constructor(props) {
@@ -11,10 +17,10 @@ class SignIn extends PureComponent {
     this.loginRef = createRef();
     this.passwordRef = createRef();
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  handleSubmit(evt) {
+  _handleSubmit(evt) {
     const {onSubmit} = this.props;
     evt.preventDefault();
 
@@ -44,7 +50,7 @@ class SignIn extends PureComponent {
                 className="login__form form"
                 action="#"
                 method="post"
-                onSubmit={this.handleSubmit}
+                onSubmit={this._handleSubmit}
               >
                 <div className="login__input-wrapper form__input-wrapper">
                   <label className="visually-hidden">E-mail</label>

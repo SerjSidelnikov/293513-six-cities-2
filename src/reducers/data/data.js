@@ -1,17 +1,17 @@
 import {
   getOffersByCity,
+  getSortedReviews,
   getUniqueCities,
   getUpdatedCurrentOffers,
   getUpdatedFavorites,
   getUpdatedOffers,
 } from '../../utils';
 import {
-  AppRoute,
   City,
   OffersRestriction,
   ServerResponseStatusCode,
 } from '../../consts';
-import {offerAdapter, offersAdapter, reviewsAdapter} from '../../adapter';
+import {mapServerOfferToClient, mapServerCityOfferToClient, reviewsAdapter} from '../../adapter';
 
 const initialState = {
   allOffers: [],
@@ -96,7 +96,7 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.GET_REVIEWS:
       return Object.assign({}, state, {
-        reviews: action.payload,
+        reviews: getSortedReviews(action.payload),
       });
 
     case ActionType.GET_NEARBY_OFFERS:
@@ -138,9 +138,7 @@ const Operation = {
       .get(`/hotels`)
       .then((response) => {
         dispatch(
-            ActionCreator.loadOffers(
-                response.data.map((offer) => offersAdapter(offer))
-            )
+            ActionCreator.loadOffers(response.data.map((offer) => mapServerCityOfferToClient(offer)))
         );
       })
       .catch(() => {
@@ -157,6 +155,8 @@ const Operation = {
                 response.data.map((review) => reviewsAdapter(review))
             )
         );
+
+        dispatch(ActionCreator.setError(false));
       })
       .catch(() => {
         dispatch(ActionCreator.setError(true));
@@ -168,20 +168,19 @@ const Operation = {
       dispatch(
           ActionCreator.getNearbyOffers(
               response.data
-                .map((offer) => offersAdapter(offer))
+                .map((offer) => mapServerCityOfferToClient(offer))
                 .slice(0, OffersRestriction.MAX_NEARBY_OFFERS_QUANTITY)
           )
       );
+
+      dispatch(ActionCreator.setError(false));
     });
   },
 
   postReview: (id, newReview) => (dispatch, getState, api) => {
+    dispatch(ActionCreator.setSending(true));
     return api
       .post(`/comments/${id}`, newReview)
-      .then((response) => {
-        dispatch(ActionCreator.setSending(true));
-        return response;
-      })
       .then((response) => {
         dispatch(
             ActionCreator.getReviews(
@@ -198,18 +197,16 @@ const Operation = {
   loadFavorites: () => (dispatch, getState, api) => {
     return api.get(`/favorite`).then((response) => {
       dispatch(
-          ActionCreator.loadFavorites(
-              response.data.map((favorite) => offerAdapter(favorite))
-          )
+          ActionCreator.loadFavorites(response.data.map((favorite) => mapServerOfferToClient(favorite)))
       );
     });
   },
 
   changeFavoriteStatus: (id, status) => (dispatch, getState, api) => {
     return api
-      .post(`/favorite/${id}/${status}`)
+      .post(`/favorite/${id}/${Number(status)}`)
       .then((response) => {
-        dispatch(ActionCreator.updateOffer(offerAdapter(response.data)));
+        dispatch(ActionCreator.updateOffer(mapServerOfferToClient(response.data)));
       })
       .catch((error) => {
         if (
@@ -217,7 +214,6 @@ const Operation = {
           error.response.status === ServerResponseStatusCode.UNAUTHORIZED
         ) {
           dispatch(ActionCreator.setError(true));
-          window.location.pathname = AppRoute.LOGIN;
         }
       });
   },

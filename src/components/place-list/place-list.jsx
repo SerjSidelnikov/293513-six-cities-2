@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import RentalCard from '../place-card/place-card';
 
 function PlaceList(props) {
-  const {rentalCardList, onRentalCardHover, onBookmarkClick, pageClass} = props;
+  const {rentalCardList, onRentalCardHover, onBookmarkClick, pageClass, userEmail} = props;
 
   return (
     <>
@@ -15,6 +15,7 @@ function PlaceList(props) {
           onRentalCardHover={onRentalCardHover}
           onBookmarkClick={onBookmarkClick}
           pageClass={pageClass}
+          userEmail={userEmail}
         />
       ))}
     </>
@@ -26,6 +27,7 @@ PlaceList.propTypes = {
   onRentalCardHover: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   pageClass: PropTypes.string.isRequired,
+  userEmail: PropTypes.string
 };
 
 export default PlaceList;
