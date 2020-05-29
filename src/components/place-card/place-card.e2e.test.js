@@ -20,6 +20,7 @@ describe(`RentalCard handlers work correctly`, () => {
           offer={RENTAL_OFFER}
           onRentalCardHover={onRentalCardHover}
           onBookmarkClick={() => {}}
+          pageClass={`favorites`}
         />
     );
 
@@ -46,6 +47,7 @@ describe(`RentalCard handlers work correctly`, () => {
           offer={RENTAL_OFFER}
           onRentalCardHover={() => {}}
           onBookmarkClick={onBookmarkClick}
+          pageClass={`favorites`}
         />
     );
 

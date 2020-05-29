@@ -49,6 +49,7 @@ exports[`Should render Property correctly 1`] = `
                 />
                 <span
                   className="header__user-name user__name"
+                  onClick={[Function]}
                 >
                   someEmail@mail.su
                 </span>

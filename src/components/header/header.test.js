@@ -7,7 +7,10 @@ import Header from './header.jsx';
 it(`Should Header render correctly`, () => {
   const tree = renderer.create(
       <MemoryRouter>
-        <Header userEmail={`SomeEmail`} />
+        <Header
+          userEmail={`someEmail@mail.su`}
+          onUserEmailClick={() => {}}
+        />
       </MemoryRouter>
   ).toJSON();
 

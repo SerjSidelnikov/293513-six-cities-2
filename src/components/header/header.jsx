@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from "../../consts";
 
-const Header = ({userEmail}) => {
+const Header = ({userEmail, onUserEmailClick}) => {
   return (
     <header className="header">
       <div className="container">
@@ -29,7 +29,10 @@ const Header = ({userEmail}) => {
                 >
                   <div className="header__avatar-wrapper user__avatar-wrapper"/>
                   {userEmail ? (
-                    <span className="header__user-name user__name">
+                    <span
+                      className="header__user-name user__name"
+                      onClick={onUserEmailClick}
+                    >
                       {userEmail}
                     </span>
                   ) : (
@@ -47,6 +50,7 @@ const Header = ({userEmail}) => {
 
 Header.propTypes = {
   userEmail: PropTypes.string,
+  onUserEmailClick: PropTypes.func.isRequired,
 };
 
 export default Header;

@@ -15,6 +15,7 @@ it(`Should render RentalCard correctly`, () => {
             offer={RENTAL_OFFER}
             onRentalCardHover={() => {}}
             onBookmarkClick={() => {}}
+            pageClass={`favorites`}
           />
         </MemoryRouter>
     )

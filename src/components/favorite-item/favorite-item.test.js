@@ -1,21 +1,18 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
+import FavoriteItem from './favorite-item';
+import {FAVORITE_OFFER} from '../../tests-mocks';
 
-import PlaceList from "./place-list";
-import {OFFERS} from "../../tests-mocks";
-
-const RENTAL_OFFER = OFFERS[0].offers;
-
-it(`Should render OffersList correctly`, () => {
+it(`Should FavoriteItem render correctly`, () => {
   const tree = renderer
     .create(
         <MemoryRouter>
-          <PlaceList
-            rentalCardList={RENTAL_OFFER}
+          <FavoriteItem
             onRentalCardHover={() => {}}
             onBookmarkClick={() => {}}
-            pageClass={`favorites`}
+            favoriteOffers={[FAVORITE_OFFER]}
+            favoriteCity={`Amsterdam`}
           />
         </MemoryRouter>
     )

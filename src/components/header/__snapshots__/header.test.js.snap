@@ -46,8 +46,9 @@ exports[`Should Header render correctly 1`] = `
               />
               <span
                 className="header__user-name user__name"
+                onClick={[Function]}
               >
-                SomeEmail
+                someEmail@mail.su
               </span>
             </a>
           </li>

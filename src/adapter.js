@@ -14,6 +14,7 @@ export const offersAdapter = (data) => {
       {
         id: data.id,
         coordinates: {
+          city: data.city.name,
           latitude: data.location.latitude,
           longitude: data.location.longitude,
           zoom: data.location.zoom,
@@ -44,6 +45,7 @@ export const offerAdapter = (data) => {
   return {
     id: data.id,
     coordinates: {
+      city: data.city.name,
       latitude: data.location.latitude,
       longitude: data.location.longitude,
       zoom: data.location.zoom,

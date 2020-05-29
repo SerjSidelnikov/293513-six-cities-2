@@ -27,6 +27,7 @@ it(`Should change active cities by click`, () => {
           onSortTypeClick={() => {}}
           isError={false}
           onBookmarkClick={() => {}}
+          onUserEmailClick={() => {}}
         />
       </MemoryRouter>
   );

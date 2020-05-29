@@ -24,6 +24,7 @@ const initialState = {
     reviews: [],
     isError: false,
     isSending: false,
+    favorites: [],
   },
   APP: {
     currentCity: CITIES[3],

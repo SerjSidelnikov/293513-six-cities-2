@@ -17,6 +17,7 @@ it(`Should OffersContainer render correctly`, () => {
             onRentalCardHover={() => {}}
             onSortTypeClick={() => {}}
             onBookmarkClick={() => {}}
+            pageClass={`cities`}
           />
         </MemoryRouter>
     )

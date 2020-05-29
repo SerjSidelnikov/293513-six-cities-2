@@ -13,6 +13,7 @@ const initialState = {
     currentOffers: OFFERS,
     cities: CITIES,
     isError: false,
+    favorites: [],
   },
   APP: {
     currentCity: CITIES[3],

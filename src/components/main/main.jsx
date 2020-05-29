@@ -5,6 +5,7 @@ import Header from "../header/header";
 import CitiesList from "../cities-list/cities-list";
 import OffersContainer from "../offers-container/offers-container";
 import NoOffers from "../no-offers/no-offers";
+import {ClassName} from "../../consts";
 
 const Main = ({
   cities,
@@ -18,13 +19,17 @@ const Main = ({
   isError,
   userEmail,
   onBookmarkClick,
+  onUserEmailClick,
 }) => {
 
   const placesCount = currentOffers.length > 0 ? currentOffers[0].offers.length : 0;
 
   return (
     <div className="page page--gray page--main">
-      <Header userEmail={userEmail}/>
+      <Header
+        userEmail={userEmail}
+        onUserEmailClick={onUserEmailClick}
+      />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -49,6 +54,7 @@ const Main = ({
               activeCardCoordinates={activeCardCoordinates}
               onRentalCardHover={onRentalCardHover}
               onBookmarkClick={onBookmarkClick}
+              pageClass={ClassName.CITY}
             />
           ) : (
             <NoOffers currentCity={currentCity} isError={isError} />
@@ -71,6 +77,7 @@ Main.propTypes = {
   isError: PropTypes.bool.isRequired,
   userEmail: PropTypes.string,
   onBookmarkClick: PropTypes.func.isRequired,
+  onUserEmailClick: PropTypes.func.isRequired,
 };
 
 export default Main;
