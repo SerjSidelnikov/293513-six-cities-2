@@ -1,4 +1,4 @@
-![Six-cities Logo](/markup/img/logo.svg)
+![Six-cities Logo](/public/img/logo.svg)
 
 It's a modern service for finding housing. 
 
