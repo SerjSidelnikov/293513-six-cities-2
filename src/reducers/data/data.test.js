@@ -288,7 +288,7 @@ describe(`Operation should work correctly`, () => {
       expect(dispatch).toHaveBeenNthCalledWith(2, {
         type: ActionType.SET_ERROR,
         payload: false,
-      })
+      });
     });
   });
 

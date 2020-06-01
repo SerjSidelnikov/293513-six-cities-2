@@ -3,7 +3,7 @@ import Enzyme, {mount} from 'enzyme';
 import {MemoryRouter} from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import Header from './header.jsx';
-import {USER_EMAIL} from '../../tests-mocks'
+import {USER_EMAIL} from '../../tests-mocks';
 
 Enzyme.configure({
   adapter: new Adapter(),
